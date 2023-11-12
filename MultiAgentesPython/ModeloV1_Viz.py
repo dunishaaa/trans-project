@@ -14,6 +14,16 @@ def agent_portrayal(agent):
             "w": 1,
             "h": 1,
         }
+    if type(agent) is Parking:
+        portrayal = {
+            "Shape": "rect",
+            "Filled": "true",
+            "Layer": 1,
+            "Color": "yellow",
+            "w": 1,
+            "h": 1,
+        }
+    
     return portrayal
 
 
