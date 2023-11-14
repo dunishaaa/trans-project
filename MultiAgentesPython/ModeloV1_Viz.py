@@ -10,7 +10,7 @@ def agent_portrayal(agent):
             "Shape": "rect",
             "Filled": "true",
             "Layer": 1,
-            "Color": "purple",
+            "Color": "Blue",
             "w": 1,
             "h": 1,
         }
@@ -19,18 +19,18 @@ def agent_portrayal(agent):
             "Shape": "rect",
             "Filled": "true",
             "Layer": 1,
-            "Color": "yellow",
+            "Color": "black",
             "w": 1,
             "h": 1,
         }
     if type(agent) is Traffic_light:
         portrayal = {
-            "Shape": "rect",
+            "Shape": "circle",
             "Filled": "true",
             "Layer": 1,
-            "Color": "yellow",
-            "w": 1,
-            "h": 1,
+            "Color": "red",
+            "r": 0.8
+            
         }
         if agent.color == 1:
             portrayal["Color"] = "yellow"

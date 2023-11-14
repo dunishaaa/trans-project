@@ -1,11 +1,7 @@
 from mesa import Agent, Model
 from mesa.time import BaseScheduler, SimultaneousActivation, StagedActivation
 from mesa.space import MultiGrid
-# from time import sleep, time, process_time
-# # import numpy as np
-# # import random
-# # import sys
-# # import matplotlib.pyplot as plt
+
 
 
 class MapModel(Model):
@@ -14,27 +10,29 @@ class MapModel(Model):
         self.schedule = SimultaneousActivation(self)
         self.running = True
         self.steps = 0
-        self.lol1 = [[(5,8),(5,9)],[(5,17),(5,18)], [(20,1),(20,2),(20,3),(20,4)], [(14,21),(14,22)],[(20,21),(20,22)]]
+        self.lol1 = [[(4,7),(4,8)],[(4,16),(4,17)], [(19,3),(19,1),(19,2)], [(13,20),(13,21)],[(19,20),(19,21)]]
+        self.lol2 = [[(1,9),(2,9),(3,9)],[(1,18),(2,18),(3,18)],[(14,22),(15,22)],[(20,22),(21,22)],[(20,4),(21,4)],[(24,7),(25,7),(26,7)]]
 
-        self.create_building((5, 5), (8, 7), [(7, 7)])
-        self.create_building((5, 10), (8, 14), [(5, 11), (7, 14)])
-        self.create_building((5, 19), (14, 20), [(6, 20), (13, 19)])
-        self.create_building((5, 23), (14, 24), [(7, 23), (12, 24)])
-        self.create_building((11, 5), (14, 14), [
-                             (12, 5), (14, 9), (11, 12), (13, 14)])
-        self.create_building((19, 5), (20, 8), [(20, 5)])
-        self.create_building((23, 5), (24, 8), [(23, 8)])
-        self.create_building((19, 11), (24, 14), [(23, 11), (21, 14)])
-        self.create_building((19, 19), (20, 20), [(20, 20)])
-        self.create_building((23, 19), (24, 20), [])
-        self.create_building((23, 23), (24, 24), [(24, 23)])
-        self.create_building((19, 23), (20, 24), [])
+        self.create_building((4, 4), (7, 6), [(6, 6)])
+        self.create_building((4, 9), (7, 13), [(4, 10), (6, 13)])
+        self.create_building((4, 18), (13, 19), [(5, 19), (12, 18)])
+        self.create_building((4, 22), (13, 23), [(6, 22), (11, 23)])
+        self.create_building((10, 4), (13, 13), [
+                             (11, 4), (13, 8), (10, 11), (12, 13)])
+        self.create_building((18, 4), (19, 7), [(19, 4)])
+        self.create_building((22, 4), (23, 7), [(22, 7)])
+        self.create_building((18, 10), (23, 13), [(22, 10), (20, 13)])
+        self.create_building((18, 18), (19, 19), [(19, 17)])
+        self.create_building((22, 18), (23, 19), [])
+        self.create_building((22, 22), (23, 23), [(23, 22)])
+        self.create_building((18, 22), (19, 23), [])
         
         #Glorieta
-        self.create_building((16, 16), (17, 17), [])
+        self.create_building((15, 15), (16, 16), [])
         
         #Semaforos
         self.create_traffic(self.lol1)
+        self.create_traffic(self.lol2)
         #self.manage_traffic(self.lol1, self.steps)
 
     def create_building(self, cell, last_cell, parking_list):
@@ -71,31 +69,43 @@ class MapModel(Model):
                 traffic =Traffic_light(i, self)
                 self.grid.place_agent(traffic, (j))
     
-    def manage_traffic(self, loc, num_steps):
+    def manage_traffic(self, loc, num_steps,color):
         for i in loc:
             for j in i:
                 check_cell = self.grid.get_cell_list_contents(j)
                 for value in check_cell:
                     if type(value) is Traffic_light:
-                        if self.steps <= 10:
-                            value.color = 0
-                        elif self.steps < 15 and self.steps > 10:
-                            value.color = 1
-                        elif self.steps >= 15 and self.steps <= 25:
-                            value.color = 2
+                        if color == 0:
+                            value.color = color
+                        elif color == 1:
+                            value.color = color
+                        elif color == 2:
+                            value.color = color
                         else:
-                            value.color = 0
-                            self.steps = 0
+                            value.color = color
                 
     def step(self):
         self.steps += 1
-        self.manage_traffic(self.lol1, self.steps)
+        
+        if self.steps <= 10:
+            self.manage_traffic(self.lol1, self.steps, 0)
+            self.manage_traffic(self.lol2, self.steps,2)
+        elif self.steps < 15 and self.steps > 10:
+            self.manage_traffic(self.lol1, self.steps, 1)
+            self.manage_traffic(self.lol2, self.steps,2)
+        elif self.steps >= 15 and self.steps <= 25:
+            self.manage_traffic(self.lol1, self.steps, 2)
+            self.manage_traffic(self.lol2, self.steps,0)
+        elif self.steps > 25 and self.steps <= 30:
+            self.manage_traffic(self.lol1, self.steps, 2)
+            self.manage_traffic(self.lol2, self.steps,1)
+        else:
+            self.manage_traffic(self.lol1, self.steps, 0)
+            self.manage_traffic(self.lol2, self.steps,2)
+            self.steps = 0
         
         
         
-
-
-
 class Building(Agent):
     # Class that models the building
     def __init__(self, unique_id, model):
