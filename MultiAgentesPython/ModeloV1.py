@@ -70,6 +70,10 @@ class MapModel(Model):
         self.create_street((18,20),(19,21),1)
         
         #Glorieta
+        self.create_street((14,17),(17,17),0)
+        self.create_street((14,14),(17,14),1)
+        self.create_street((14,15),(14,16),3)
+        self.create_street((17,15),(17,16),2)
         
     def create_street(self, cell, last_cell, direccion):
         actual_cell = (0, 0)
