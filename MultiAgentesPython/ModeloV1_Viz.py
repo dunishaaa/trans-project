@@ -9,7 +9,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Layer": 1,
+            "Layer": 2,
             "Color": "Blue",
             "w": 1,
             "h": 1,
@@ -18,7 +18,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Layer": 1,
+            "Layer": 2,
             "Color": "black",
             "w": 1,
             "h": 1,
@@ -27,10 +27,10 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "circle",
             "Filled": "true",
-            "Layer": 1,
+            "Layer": 3,
             "Color": "red",
             "r": 0.8
-            
+
         }
         if agent.color == 1:
             portrayal["Color"] = "yellow"
@@ -38,21 +38,31 @@ def agent_portrayal(agent):
             portrayal["Color"] = "green"
         elif agent.color == 2:
             portrayal["Color"] = "red"
-                
+    
+    if type(agent) is Street:
+        portrayal = {
+            "Shape": "rect",
+            "Filled": "true",
+            "Layer": 1,
+            "Color": "gray",
+            "w": 1,
+            "h": 1,
+        }
+        
     return portrayal
 
 
 
-
-grid = CanvasGrid(agent_portrayal, 28, 28)
+var = 28
+grid = CanvasGrid(agent_portrayal, var, var)
 
 server = ModularServer(
     MapModel,
     [grid],
     "Cleaning the grid",
     {
-        "width": 28,
-        "height":  28,
+        "width": var,
+        "height":  var,
     },
 )
 server.port = 8521  # The default

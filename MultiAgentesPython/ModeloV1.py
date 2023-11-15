@@ -3,37 +3,90 @@ from mesa.time import BaseScheduler, SimultaneousActivation, StagedActivation
 from mesa.space import MultiGrid
 
 
-
 class MapModel(Model):
     def __init__(self, width, height):
         self.grid = MultiGrid(width, height, True)
         self.schedule = SimultaneousActivation(self)
         self.running = True
         self.steps = 0
-        self.lol1 = [[(4,7),(4,8)],[(4,16),(4,17)], [(19,3),(19,1),(19,2)], [(13,20),(13,21)],[(19,20),(19,21)]]
-        self.lol2 = [[(1,9),(2,9),(3,9)],[(1,18),(2,18),(3,18)],[(14,22),(15,22)],[(20,22),(21,22)],[(20,4),(21,4)],[(24,7),(25,7),(26,7)]]
+        size = 1
+        self.lol1 = [[(4*size, 7*size), (4*size, 8*size)], [(4*size, 16*size), (4*size, 17*size)], [(19*size, 3*size), (19*size,
+                                                                                                                        1*size), (19*size, 2*size)], [(13*size, 20*size), (13*size, 21*size)], [(19*size, 20*size), (19*size, 21*size)]]
+        self.lol2 = [[(1*size, 9*size), (2*size, 9*size), (3*size, 9*size)], [(1*size, 18*size), (2*size, 18*size), (3*size, 18*size)], [(14*size, 22*size), (15*size, 22*size)], [
+            (20*size, 22*size), (21*size, 22*size)], [(20*size, 4*size), (21*size, 4*size)], [(24*size, 7*size), (25*size, 7*size), (26*size, 7*size)]]
 
-        self.create_building((4, 4), (7, 6), [(6, 6)])
-        self.create_building((4, 9), (7, 13), [(4, 10), (6, 13)])
-        self.create_building((4, 18), (13, 19), [(5, 19), (12, 18)])
-        self.create_building((4, 22), (13, 23), [(6, 22), (11, 23)])
-        self.create_building((10, 4), (13, 13), [
-                             (11, 4), (13, 8), (10, 11), (12, 13)])
-        self.create_building((18, 4), (19, 7), [(19, 4)])
-        self.create_building((22, 4), (23, 7), [(22, 7)])
-        self.create_building((18, 10), (23, 13), [(22, 10), (20, 13)])
-        self.create_building((18, 18), (19, 19), [(19, 17)])
-        self.create_building((22, 18), (23, 19), [])
-        self.create_building((22, 22), (23, 23), [(23, 22)])
-        self.create_building((18, 22), (19, 23), [])
-        
-        #Glorieta
-        self.create_building((15, 15), (16, 16), [])
-        
-        #Semaforos
+        self.create_building(
+            (4*size, 4*size), (7*size, 6*size), [(6*size, 6*size)])
+        self.create_building((4*size, 9*size), (7*size, 13*size),
+                             [(4*size, 10*size), (6*size, 13*size)])
+        self.create_building((4*size, 18*size), (13*size, 19*size),
+                             [(5*size, 19*size), (12*size, 18*size)])
+        self.create_building((4*size, 22*size), (13*size, 23*size),
+                             [(6*size, 22*size), (11*size, 23*size)])
+        self.create_building((10*size, 4*size), (13*size, 13*size), [
+                            (11*size, 4*size), (13*size, 8*size), (10*size, 11*size), (12*size, 13*size)])
+        self.create_building(
+            (18*size, 4*size), (19*size, 7*size), [(19*size, 4*size)])
+        self.create_building(
+            (22*size, 4*size), (23*size, 7*size), [(22*size, 7*size)])
+        self.create_building((18*size, 10*size), (23*size, 13*size),
+                             [(22*size, 10*size), (20*size, 13*size)])
+        self.create_building((18*size, 18*size),
+                             (19*size, 19*size), [(19*size, 17*size)])
+        self.create_building((22*size, 18*size), (23*size, 19*size), [])
+        self.create_building((22*size, 22*size),
+                             (23*size, 23*size), [(23*size, 22*size)])
+        self.create_building((18*size, 22*size), (19*size, 23*size), [])
+
+        # Glorieta
+        self.create_building((15*size, 15*size), (16*size, 16*size), [])
+
+        # Semaforos
         self.create_traffic(self.lol1)
         self.create_traffic(self.lol2)
-        #self.manage_traffic(self.lol1, self.steps)
+
+    # Calle
+        # Bordes
+        self.create_street((4, 0), (23, 3), 1)
+        self.create_street((24, 0), (27, 27), 2)
+        self.create_street((4, 24), (23, 27), 0)
+        self.create_street((0, 0), (3, 27), 3)
+        # Dentro
+        self.create_street((4, 14), (13, 15), 1)
+        self.create_street((8, 4), (9, 13), 3)
+        self.create_street((4,7),(7,8), 0)
+        self.create_street((4,16),(13,17),0)
+        self.create_street((4,20),(13,21),1)
+        self.create_street((14,4),(15,13), 3)
+        self.create_street((16,4),(17,13), 2)
+        self.create_street((18,8),(23,9),1)
+        self.create_street((20,4),(21,7),3)
+        self.create_street((18,14),(23,15),1)
+        self.create_street((18,16),(23,17),0)
+        self.create_street((20,18),(21,23),3)
+        self.create_street((22,20),(23,21),0)
+        self.create_street((14,18),(15,23),3)
+        self.create_street((16,18),(17,23),2)
+        self.create_street((18,20),(19,21),1)
+        
+        #Glorieta
+        
+    def create_street(self, cell, last_cell, direccion):
+        actual_cell = (0, 0)
+        initial_x, initial_y = cell
+
+        while actual_cell != last_cell:
+            actual_cell = cell
+            x, y = cell
+            last_x, last_y = last_cell
+
+            if (y <= last_y and x <= last_x):
+                street = Street((actual_cell), self)
+                street.direccion = direccion
+                self.grid.place_agent(street, (actual_cell))
+                cell = (x, y + 1)
+            else:
+                cell = (x + 1, initial_y)
 
     def create_building(self, cell, last_cell, parking_list):
         # This function creates a new building, well I think so
@@ -60,16 +113,15 @@ class MapModel(Model):
                     self.grid.remove_agent(value)
                     parking = Parking(i, self)
                     self.grid.place_agent(parking, i)
-                    
-                    
+
     def create_traffic(self, loc):
         for i in loc:
             for j in i:
                 check_cell = self.grid.get_cell_list_contents(j)
-                traffic =Traffic_light(i, self)
+                traffic = Traffic_light(i, self)
                 self.grid.place_agent(traffic, (j))
-    
-    def manage_traffic(self, loc, num_steps,color):
+
+    def manage_traffic(self, loc, num_steps, color):
         for i in loc:
             for j in i:
                 check_cell = self.grid.get_cell_list_contents(j)
@@ -83,29 +135,28 @@ class MapModel(Model):
                             value.color = color
                         else:
                             value.color = color
-                
+
     def step(self):
         self.steps += 1
-        
+
         if self.steps <= 10:
             self.manage_traffic(self.lol1, self.steps, 0)
-            self.manage_traffic(self.lol2, self.steps,2)
+            self.manage_traffic(self.lol2, self.steps, 2)
         elif self.steps < 15 and self.steps > 10:
             self.manage_traffic(self.lol1, self.steps, 1)
-            self.manage_traffic(self.lol2, self.steps,2)
+            self.manage_traffic(self.lol2, self.steps, 2)
         elif self.steps >= 15 and self.steps <= 25:
             self.manage_traffic(self.lol1, self.steps, 2)
-            self.manage_traffic(self.lol2, self.steps,0)
+            self.manage_traffic(self.lol2, self.steps, 0)
         elif self.steps > 25 and self.steps <= 30:
             self.manage_traffic(self.lol1, self.steps, 2)
-            self.manage_traffic(self.lol2, self.steps,1)
+            self.manage_traffic(self.lol2, self.steps, 1)
         else:
             self.manage_traffic(self.lol1, self.steps, 0)
-            self.manage_traffic(self.lol2, self.steps,2)
+            self.manage_traffic(self.lol2, self.steps, 2)
             self.steps = 0
-        
-        
-        
+
+
 class Building(Agent):
     # Class that models the building
     def __init__(self, unique_id, model):
@@ -117,9 +168,16 @@ class Parking(Agent):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
 
+
 class Traffic_light(Agent):
     def __init__(self, unique_id, model):
         super().__init__(unique_id, model)
         # 0 = verde | 1 = amarillo | 2 = Rojo
         self.color = 1
-    
+
+
+class Street(Agent):
+    def __init__(self, unique_id, model):
+        super().__init__(unique_id, model)
+        # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
+        self.direccion = 1
