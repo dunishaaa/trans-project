@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ec8fb44593c564f4fa761f970df269d2
+timeCreated: 1546005904
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 139858
+  packageName: Road sign - Big pack
+  packageVersion: 1.0
+  assetPath: Assets/Road sign - Big pack/Road sign - Big pack/Models/prefab/sign_42.prefab
+  uploadId: 604556
