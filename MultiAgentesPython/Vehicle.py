@@ -1,31 +1,8 @@
 from mesa import Agent 
 from abc import abstractmethod
 from queue import Queue
-
-class Building(Agent):
-    # Class that models the building
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-
-class Parking(Agent):
-    # Class that models the parking
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-
-class Traffic_light(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        # 0 = verde | 1 = amarillo | 2 = Rojo
-        self.color = 1
-
-
-class Street(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
-        self.direccion = 1
+from Parking import Parking
+from Street import Street
 
 class Vehicle(Agent):
     def __init__(self, unique_id, model, position, destiny) -> None:
@@ -132,29 +109,3 @@ class Vehicle(Agent):
         self.restore_path(path)
 
     
-class Car(Vehicle):
-    def __init__(self, unique_id, model, position, destiny):
-        super().__init__(unique_id, model, position, destiny)
-
-    def prune_neighbors(self, possible_steps):
-        width = self.model.grid.width
-        heigth = self.model.grid.height
-        valid_steps = [(px, py) for px,py in possible_steps
-                       if px >= 0 and  px < width and
-                       py >= 0 and py < heigth]
-        street_steps = []
-        for position in valid_steps:
-            cell = self.model.grid.get_cell_list_contents(position)
-            for value in cell:
-                if type(value) is Street or type(value) is Parking:
-                    street_steps.append((position))
-
-        return tuple(street_steps)
-
-    def step(self) -> None:
-        self.move()
-    
-    def advance(self) -> None:
-        print("", end="")
-
-

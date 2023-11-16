@@ -1,8 +1,12 @@
 from mesa import Agent, Model
 from mesa.time import SimultaneousActivation 
 from mesa.space import MultiGrid
-from Vehicle import *
 from random import randint
+from Car import Car
+from Parking import Parking
+from Street import Street
+from TrafficLight import TrafficLight
+from Building import Building
 
 
 class MapModel(Model):
@@ -149,7 +153,7 @@ class MapModel(Model):
         for i in loc:
             for j in i:
                 check_cell = self.grid.get_cell_list_contents(j)
-                traffic = Traffic_light(i, self)
+                traffic = TrafficLight(i, self)
                 self.grid.place_agent(traffic, (j))
 
     def manage_traffic(self, loc, num_steps, color):
@@ -157,7 +161,7 @@ class MapModel(Model):
             for j in i:
                 check_cell = self.grid.get_cell_list_contents(j)
                 for value in check_cell:
-                    if type(value) is Traffic_light:
+                    if type(value) is TrafficLight:
                         if color == 0:
                             value.color = color
                         elif color == 1:

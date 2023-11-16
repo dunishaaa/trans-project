@@ -23,7 +23,7 @@ def agent_portrayal(agent):
             "w": 1,
             "h": 1,
         }
-    if type(agent) is Traffic_light:
+    if type(agent) is TrafficLight:
         portrayal = {
             "Shape": "circle",
             "Filled": "true",
@@ -73,7 +73,7 @@ def agent_portrayal(agent):
 
 
 var = 28
-num_cars = 1 
+num_cars = 10 
 grid = CanvasGrid(agent_portrayal, var, var)
 
 server = ModularServer(
