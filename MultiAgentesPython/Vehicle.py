@@ -3,6 +3,7 @@ from abc import abstractmethod
 from queue import Queue
 from Parking import Parking
 from Street import Street
+from TrafficLight import TrafficLight
 
 class Vehicle(Agent):
     def __init__(self, unique_id, model, position, destiny) -> None:
@@ -83,8 +84,28 @@ class Vehicle(Agent):
     
     def move(self) -> None:
         if not self.path.empty():
-            new_position = self.path.get()
-            self.model.grid.move_agent(self, new_position)
+            new_position = self.path.queue[0]
+            next_cell = self.model.grid.get_cell_list_contents(new_position)
+            trafficLight = None
+            carNext = None
+            for elem in next_cell:
+                if type(elem) is TrafficLight:
+                    trafficLight = elem
+                    break
+                if type(elem) is Vehicle:
+                    carNext = elem
+
+            if trafficLight:
+                # 0 = verde | 1 = amarillo | 2 = Rojo
+                print(f"{trafficLight.color=}")
+                if trafficLight.color == 0:
+                    self.model.grid.move_agent(self, new_position)
+                    self.path.get()
+            elif carNext is None:
+                self.model.grid.move_agent(self, new_position)
+                self.path.get()
+
+
         else:
             self.show = False
 

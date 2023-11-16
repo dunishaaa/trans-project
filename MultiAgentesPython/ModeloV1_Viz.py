@@ -50,12 +50,15 @@ def agent_portrayal(agent):
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
         if agent.direccion == 0:
             portrayal["Color"] = "white"
+            portrayal["Color"] = "gray"
         if agent.direccion == 1:
             portrayal["Color"] = "gray"
         if agent.direccion == 2:
             portrayal["Color"] = "red"
+            portrayal["Color"] = "gray"
         if agent.direccion == 3:
             portrayal["Color"] = "magenta"
+            portrayal["Color"] = "gray"
             #portrayal["Color"] = (128,128,128)
     if type(agent) is Car:
         portrayal = {
@@ -73,7 +76,7 @@ def agent_portrayal(agent):
 
 
 var = 28
-num_cars = 10 
+num_cars = 4 
 grid = CanvasGrid(agent_portrayal, var, var)
 
 server = ModularServer(

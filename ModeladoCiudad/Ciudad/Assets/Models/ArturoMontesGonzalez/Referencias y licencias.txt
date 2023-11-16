@@ -1,9 +1,0 @@
-Low Poly Cars -- Tiene carros
-Link: https://assetstore.unity.com/packages/3d/vehicles/land/low-poly-cars-toy-cars-258470
-Road sign -- Tiene signs
-Link: https://assetstore.unity.com/packages/3d/props/industrial/road-sign-big-pack-139858
-SimplePoly city -- tiene carros, espectaculares, semaforos, signs etc
-Link: https://assetstore.unity.com/packages/3d/environments/simplepoly-city-low-poly-assets-58899
-
-Todas tienen la licencia Standard Unity Asset Store EULA en: 
-https://unity.com/es/legal/as-terms
