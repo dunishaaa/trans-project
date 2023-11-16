@@ -50,8 +50,6 @@ class Vehicle(Agent):
         self.direction = direction
         self.path = Queue() 
     
-    
-        
     def get_neighbors(self, pos):
         curr_cel = self.model.grid.get_cell_list_contents(pos)
         curr_street_dir = 1
@@ -86,7 +84,7 @@ class Vehicle(Agent):
         for position in valid_steps:
             cell = self.model.grid.get_cell_list_contents(position)
             for value in cell:
-                if type(value) is Street:
+                if type(value) is Street or type(value) is Parking:
                     street_steps.append((position))
                     break
 

@@ -2,19 +2,22 @@ from mesa import Agent, Model
 from mesa.time import SimultaneousActivation 
 from mesa.space import MultiGrid
 from Vehicle import *
+from random import randint
 
 
 class MapModel(Model):
-    def __init__(self, width, height):
+    def __init__(self, width, height, number_cars):
         self.grid = MultiGrid(width, height, True)
+        self.number_cars = number_cars
         self.schedule = SimultaneousActivation(self)
         self.running = True
         self.steps = 0
-
-        
-
-
         size = 1
+        self.parking_lots = [(4*size, 10*size), (6*size, 13*size), (5*size, 19*size), (12*size, 18*size),
+                             (6*size, 22*size), (11*size, 23*size),(11*size, 4*size), 
+                             (13*size, 8*size), (10*size, 11*size), (12*size, 13*size),
+                             (19*size, 4*size), (23*size, 22*size),(23*size, 22*size),(19*size, 17*size)]
+
         self.lol1 = [[(4*size, 7*size), (4*size, 8*size)], [(4*size, 16*size), (4*size, 17*size)], [(19*size, 3*size), (19*size,
                                                                                                                         1*size), (19*size, 2*size)], [(13*size, 20*size), (13*size, 21*size)], [(19*size, 20*size), (19*size, 21*size)]]
         self.lol2 = [[(1*size, 9*size), (2*size, 9*size), (3*size, 9*size)], [(1*size, 18*size), (2*size, 18*size), (3*size, 18*size)], [(14*size, 22*size), (15*size, 22*size)], [
@@ -83,13 +86,20 @@ class MapModel(Model):
         self.create_street((14,14),(17,14),2)
         self.create_street((14,15),(14,16),1)
         self.create_street((17,15),(17,16),0)
-        ini = (6,7)
-        dest = (24, 24)
-        carAg = Car(1, self, ini, dest, 1)
-        self.grid.place_agent(carAg, ini)
-        self.schedule.add(carAg)
-        carAg.get_path()
-        
+        self.create_cars()
+    def create_cars(self):
+        ini = self.parking_lots[randint(0, len(self.parking_lots)-2)]
+        dest = self.parking_lots[randint(0, len(self.parking_lots)-2)]
+        while ini == dest:
+            dest = self.parking_lots[randint(0, len(self.parking_lots)-2)]
+
+        for _ in range(self.number_cars):
+            carAg = Car(1, self, ini, dest, 1)
+            self.grid.place_agent(carAg, ini)
+            self.schedule.add(carAg)
+            carAg.get_path()
+
+
     def create_street(self, cell, last_cell, direccion):
         actual_cell = (0, 0)
         initial_x, initial_y = cell
