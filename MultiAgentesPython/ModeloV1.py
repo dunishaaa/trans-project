@@ -52,6 +52,7 @@ class MapModel(Model):
 
     # Calle
         # Bordes
+        #   blanco      gris        rojo            magenta
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
         self.create_street((4, 0), (23, 3), 2)
         self.create_street((24, 0), (27, 27), 0)
@@ -80,6 +81,7 @@ class MapModel(Model):
         self.create_street((14,14),(17,14),1)
         self.create_street((14,15),(14,16),3)
         self.create_street((17,15),(17,16),2)
+
         carAg = Car(1, self, (6,7), (12,14), 1)
         self.grid.place_agent(carAg, (6,7))
         self.schedule.add(carAg)
