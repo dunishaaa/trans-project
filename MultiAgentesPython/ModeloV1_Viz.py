@@ -23,7 +23,7 @@ def agent_portrayal(agent):
             "w": 1,
             "h": 1,
         }
-    if type(agent) is Traffic_light:
+    if type(agent) is TrafficLight:
         portrayal = {
             "Shape": "circle",
             "Filled": "true",
@@ -44,16 +44,36 @@ def agent_portrayal(agent):
             "Shape": "rect",
             "Filled": "true",
             "Layer": 1,
-            "Color": "gray",
             "w": 1,
             "h": 1,
         }
+        # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
+        if agent.direccion == 0:
+            portrayal["Color"] = "white"
+        if agent.direccion == 1:
+            portrayal["Color"] = "gray"
+        if agent.direccion == 2:
+            portrayal["Color"] = "red"
+        if agent.direccion == 3:
+            portrayal["Color"] = "magenta"
+            #portrayal["Color"] = (128,128,128)
+    if type(agent) is Car:
+        portrayal = {
+            "Shape": "circle",
+            "Filled": "true",
+            "Layer": 3,
+            "Color": "purple",
+            "r": 0.8
+        }
+        if not agent.show:
+            portrayal["Color"] = "gray"
         
     return portrayal
 
 
 
 var = 28
+num_cars = 10 
 grid = CanvasGrid(agent_portrayal, var, var)
 
 server = ModularServer(
@@ -63,6 +83,7 @@ server = ModularServer(
     {
         "width": var,
         "height":  var,
+        "number_cars": num_cars
     },
 )
 server.port = 8521  # The default
