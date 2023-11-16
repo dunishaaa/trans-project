@@ -1,0 +1,17 @@
+Referencias
+
+SEMAFORO: 
+- 3D Model License Standard
+- https://www.turbosquid.com/3d-models/traffic-light-3d-model-1408558 
+
+COCHE:
+- CC Attribution License
+- https://sketchfab.com/3d-models/80-american-sedan-a08724fd68de4fb4bbaea3e593e87e63
+
+SEÑALAMIENTO:
+- CC Attribution License
+- https://sketchfab.com/3d-models/pedestrian-crossing-sign-e23c34e9dec947b69776f573ae85a791
+
+ESPECTACULAR:
+- CC Attribution License
+- https://sketchfab.com/3d-models/billboard-psd-layered-texture-maps-included-20d1a51fbfa94373900e29de74a0f9ee
