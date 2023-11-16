@@ -59,28 +59,30 @@ class MapModel(Model):
         self.create_street((4, 24), (23, 27), 3)
         self.create_street((0, 0), (3, 27), 1)
         # Dentro
-        self.create_street((4, 14), (13, 15), 1)
-        self.create_street((8, 4), (9, 13), 3)
-        self.create_street((4,7),(7,8), 0)
-        self.create_street((4,16),(13,17),0)
-        self.create_street((4,20),(13,21),1)
-        self.create_street((14,4),(15,13), 3)
-        self.create_street((16,4),(17,13), 2)
-        self.create_street((18,8),(23,9),1)
-        self.create_street((20,4),(21,7),3)
-        self.create_street((18,14),(23,15),1)
-        self.create_street((18,16),(23,17),0)
-        self.create_street((20,18),(21,23),3)
-        self.create_street((22,20),(23,21),0)
-        self.create_street((14,18),(15,23),3)
-        self.create_street((16,18),(17,23),2)
-        self.create_street((18,20),(19,21),1)
+        self.create_street((4, 14), (13, 15), 2)#
+        self.create_street((8, 4), (9, 13), 1)#
+        self.create_street((4,7),(7,8), 3)#
+        self.create_street((4,16),(13,17),3)#
+        self.create_street((4,20),(13,21),2)#
+        self.create_street((14,4),(15,13), 1) #
+        self.create_street((16,4),(17,13), 0) #
+        self.create_street((18,8),(23,9),2) #
+        self.create_street((20,4),(21,7),1) #
+        self.create_street((18,14),(23,15),2)#
+        self.create_street((18,16),(23,17),3)#
+        self.create_street((20,18),(21,23),1)#
+
+        self.create_street((22,20),(23,21),3)#
+        self.create_street((14,18),(15,23),1)#
+
+        self.create_street((16,18),(17,23),0)#
+        self.create_street((18,20),(19,21),2)#
         
         #Glorieta
-        self.create_street((14,17),(17,17),0)
-        self.create_street((14,14),(17,14),1)
-        self.create_street((14,15),(14,16),3)
-        self.create_street((17,15),(17,16),2)
+        self.create_street((14,17),(17,17),3)#
+        self.create_street((14,14),(17,14),2)
+        self.create_street((14,15),(14,16),1)
+        self.create_street((17,15),(17,16),0)
 
         carAg = Car(1, self, (6,7), (12,14), 1)
         self.grid.place_agent(carAg, (6,7))
