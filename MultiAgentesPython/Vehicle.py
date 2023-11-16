@@ -27,6 +27,19 @@ class Street(Agent):
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
         self.direccion = 1
 
+def get_direction(prev_pos, new_pos):
+    #print(f"{prev_pos=}")
+    #print(f"{new_pos=}")
+    x1,y1 = prev_pos
+    x2,y2 = new_pos 
+    if x2 > x1: # der
+        return 2
+    elif x2 < x1: # izq
+        return 3
+    elif y2 > y1:
+        return 0
+    else:
+        return 1
 
 class Vehicle(Agent):
     def __init__(self, unique_id, model, position, destiny, direction):
@@ -37,25 +50,47 @@ class Vehicle(Agent):
         self.direction = direction
         self.path = Queue() 
     
-    # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
+    
+        
     def get_neighbors(self, pos):
-        positions = self.model.grid.get_neighborhood(
-            pos , moore=True, include_center=False
-        )  # Get all neighbours
-
-        possible_steps = [
-                (px, py)
-                for (px, py) in positions
-                if abs(px - pos[0])+abs(py-pos[1]) <= 1 
-            ]
-        valid_steps = []        
-        for position in possible_steps:
+        curr_cel = self.model.grid.get_cell_list_contents(pos)
+        curr_street_dir = 1
+        for elem in curr_cel:
+            if type(elem) is Street:
+                curr_street_dir = elem.direccion
+        x,y = pos
+        possible_steps = []        
+        # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
+        if curr_street_dir == 0:
+            possible_steps.append((x, y+1))    
+            possible_steps.append((x+1, y))    
+            possible_steps.append((x-1, y))    
+        elif curr_street_dir == 1:
+            possible_steps.append((x, y-1))    
+            possible_steps.append((x+1, y))    
+            possible_steps.append((x-1, y))    
+        elif curr_street_dir == 2:
+            possible_steps.append((x+1, y))    
+            possible_steps.append((x, y-1))    
+            possible_steps.append((x, y+1))    
+        else:
+            possible_steps.append((x-1, y))    
+            possible_steps.append((x, y-1))    
+            possible_steps.append((x, y+1))    
+        width = self.model.grid.width
+        heigth = self.model.grid.height
+        valid_steps = [(px, py) for px,py in possible_steps
+                       if px >= 0 and  px < width and
+                       py >= 0 and py < heigth]
+        street_steps = []
+        for position in valid_steps:
             cell = self.model.grid.get_cell_list_contents(position)
-            if len(cell) == 1 and type(cell[0]) is Street:
-#                if cell[0].direccion == 0 or cell[0].direccion == 3
-                valid_steps.append((position))
+            for value in cell:
+                if type(value) is Street:
+                    street_steps.append((position))
+                    break
 
-        return tuple(valid_steps)
+        return tuple(street_steps)
 
     def move(self):
         if not self.path.empty():
@@ -86,8 +121,6 @@ class Car(Vehicle):
         while not q.empty():
             x, y= q.get()
             possible_steps = self.get_neighbors((x, y))
-            #print(f"cur: {(x,y)}")
-            #print(f"{possible_steps=}")
             for to_x, to_y in possible_steps:
                 if not visited[to_x][to_y]:
                     path[to_x][to_y] = (x,y)

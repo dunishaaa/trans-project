@@ -83,9 +83,10 @@ class MapModel(Model):
         self.create_street((14,14),(17,14),2)
         self.create_street((14,15),(14,16),1)
         self.create_street((17,15),(17,16),0)
-
-        carAg = Car(1, self, (6,7), (12,14), 1)
-        self.grid.place_agent(carAg, (6,7))
+        ini = (6,7)
+        dest = (24, 24)
+        carAg = Car(1, self, ini, dest, 1)
+        self.grid.place_agent(carAg, ini)
         self.schedule.add(carAg)
         carAg.get_path()
         
