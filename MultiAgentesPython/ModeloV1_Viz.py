@@ -47,11 +47,15 @@ def agent_portrayal(agent):
             "w": 1,
             "h": 1,
         }
-        if agent.direccion == 0 or agent.direccion == 2:
+        # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
+        if agent.direccion == 0:
+            portrayal["Color"] = "white"
+        if agent.direccion == 1:
             portrayal["Color"] = "gray"
-            #portrayal["Color"] = (128,128,128)
-        if agent.direccion == 1 or agent.direccion == 3:
-            portrayal["Color"] = "gray"
+        if agent.direccion == 2:
+            portrayal["Color"] = "red"
+        if agent.direccion == 3:
+            portrayal["Color"] = "magenta"
             #portrayal["Color"] = (128,128,128)
     if type(agent) is Car:
         portrayal = {
@@ -61,6 +65,8 @@ def agent_portrayal(agent):
             "Color": "purple",
             "r": 0.8
         }
+        if not agent.show:
+            portrayal["Color"] = "gray"
         
     return portrayal
 

@@ -11,9 +11,7 @@ class MapModel(Model):
         self.running = True
         self.steps = 0
 
-        carAg = Car(1, self, (1,0), (6,7))
-        self.grid.place_agent(carAg, (1,0))
-        carAg.get_path()
+        
 
 
         size = 1
@@ -54,10 +52,11 @@ class MapModel(Model):
 
     # Calle
         # Bordes
-        self.create_street((4, 0), (23, 3), 1)
-        self.create_street((24, 0), (27, 27), 2)
-        self.create_street((4, 24), (23, 27), 0)
-        self.create_street((0, 0), (3, 27), 3)
+        # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
+        self.create_street((4, 0), (23, 3), 2)
+        self.create_street((24, 0), (27, 27), 0)
+        self.create_street((4, 24), (23, 27), 3)
+        self.create_street((0, 0), (3, 27), 1)
         # Dentro
         self.create_street((4, 14), (13, 15), 1)
         self.create_street((8, 4), (9, 13), 3)
@@ -81,6 +80,10 @@ class MapModel(Model):
         self.create_street((14,14),(17,14),1)
         self.create_street((14,15),(14,16),3)
         self.create_street((17,15),(17,16),2)
+        carAg = Car(1, self, (6,7), (12,14), 1)
+        self.grid.place_agent(carAg, (6,7))
+        self.schedule.add(carAg)
+        carAg.get_path()
         
     def create_street(self, cell, last_cell, direccion):
         actual_cell = (0, 0)
@@ -166,5 +169,7 @@ class MapModel(Model):
             self.manage_traffic(self.lol1, self.steps, 0)
             self.manage_traffic(self.lol2, self.steps, 2)
             self.steps = 0
+        
+        self.schedule.step()
 
 

@@ -29,14 +29,15 @@ class Street(Agent):
 
 
 class Vehicle(Agent):
-    def __init__(self, unique_id, model, position, destiny):
+    def __init__(self, unique_id, model, position, destiny, direction):
         super().__init__(unique_id, model)
         self.show = True 
         self.position = position
         self.destiny = destiny
-        self.direction = 1
-        self.path = []
+        self.direction = direction
+        self.path = Queue() 
     
+    # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
     def get_neighbors(self, pos):
         positions = self.model.grid.get_neighborhood(
             pos , moore=True, include_center=False
@@ -51,20 +52,25 @@ class Vehicle(Agent):
         for position in possible_steps:
             cell = self.model.grid.get_cell_list_contents(position)
             if len(cell) == 1 and type(cell[0]) is Street:
+#                if cell[0].direccion == 0 or cell[0].direccion == 3
                 valid_steps.append((position))
 
-        return tuple(possible_steps)
+        return tuple(valid_steps)
+
+    def move(self):
+        if not self.path.empty():
+            new_position = self.path.get()
+            self.model.grid.move_agent(self, new_position)
+        else:
+            self.show = False
 
     @abstractmethod
     def get_path(self):
         ...
-    @abstractmethod
-    def move(self):
-        ...
     
 class Car(Vehicle):
-    def __init__(self, unique_id, model, position, destiny):
-        super().__init__(unique_id, model, position, destiny)
+    def __init__(self, unique_id, model, position, destiny, direction):
+        super().__init__(unique_id, model, position, destiny, direction)
 
     def get_path(self):
 #        print(f"{self.position=}")
@@ -88,9 +94,7 @@ class Car(Vehicle):
                     visited[to_x][to_y] = True
                     q.put((to_x, to_y))
 
-        restored_path = self.restore_path(path)
-        print(f"{restored_path}")
-        return restored_path
+        self.restore_path(path)
 
     def restore_path(self, path):
         x, y = self.destiny
@@ -100,10 +104,17 @@ class Car(Vehicle):
             x, y = path[x][y]
             restored_path.append((x, y))
 
-        return restored_path[::-1]
-
+        path_steps = restored_path[::-1]
+        print(f"{path_steps=}")
+        for step in path_steps:
+            self.path.put(step)
+        #self.path.get()
     
-    def move(self):
-        ...
+    
+    def step(self):
+        self.move()
+    
+    def advance(self):
+        print("", end="")
 
 
