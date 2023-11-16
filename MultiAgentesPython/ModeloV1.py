@@ -1,6 +1,7 @@
 from mesa import Agent, Model
-from mesa.time import BaseScheduler, SimultaneousActivation, StagedActivation
+from mesa.time import SimultaneousActivation 
 from mesa.space import MultiGrid
+from Vehicle import *
 
 
 class MapModel(Model):
@@ -9,6 +10,12 @@ class MapModel(Model):
         self.schedule = SimultaneousActivation(self)
         self.running = True
         self.steps = 0
+
+        carAg = Car(1, self, (1,0), (6,7))
+        self.grid.place_agent(carAg, (1,0))
+        carAg.get_path()
+
+
         size = 1
         self.lol1 = [[(4*size, 7*size), (4*size, 8*size)], [(4*size, 16*size), (4*size, 17*size)], [(19*size, 3*size), (19*size,
                                                                                                                         1*size), (19*size, 2*size)], [(13*size, 20*size), (13*size, 21*size)], [(19*size, 20*size), (19*size, 21*size)]]
@@ -161,27 +168,3 @@ class MapModel(Model):
             self.steps = 0
 
 
-class Building(Agent):
-    # Class that models the building
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-
-class Parking(Agent):
-    # Class that models the parking
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-
-
-class Traffic_light(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        # 0 = verde | 1 = amarillo | 2 = Rojo
-        self.color = 1
-
-
-class Street(Agent):
-    def __init__(self, unique_id, model):
-        super().__init__(unique_id, model)
-        # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
-        self.direccion = 1

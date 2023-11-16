@@ -44,9 +44,22 @@ def agent_portrayal(agent):
             "Shape": "rect",
             "Filled": "true",
             "Layer": 1,
-            "Color": "gray",
             "w": 1,
             "h": 1,
+        }
+        if agent.direccion == 0 or agent.direccion == 2:
+            portrayal["Color"] = "gray"
+            #portrayal["Color"] = (128,128,128)
+        if agent.direccion == 1 or agent.direccion == 3:
+            portrayal["Color"] = "gray"
+            #portrayal["Color"] = (128,128,128)
+    if type(agent) is Car:
+        portrayal = {
+            "Shape": "circle",
+            "Filled": "true",
+            "Layer": 3,
+            "Color": "purple",
+            "r": 0.8
         }
         
     return portrayal
