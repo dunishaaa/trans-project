@@ -86,16 +86,17 @@ class MapModel(Model):
         self.create_street((14,14),(17,14),2)
         self.create_street((14,15),(14,16),1)
         self.create_street((17,15),(17,16),0)
-        self.create_cars()
+        self.create_cars_in_lots()
 
-    def create_cars(self):
-
+    def create_cars_in_lots(self):
+        #pini = (6,6)
+        #pdes = (23,22)
         for i in range(self.number_cars):
             ini = self.parking_lots[randint(0, len(self.parking_lots)-2)]
             dest = self.parking_lots[randint(0, len(self.parking_lots)-2)]
             while ini == dest:
                 dest = self.parking_lots[randint(0, len(self.parking_lots)-2)]
-            carAg = Car(i, self, ini, dest, 1)
+            carAg = Car(i, self, ini, dest)
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
             carAg.get_path()

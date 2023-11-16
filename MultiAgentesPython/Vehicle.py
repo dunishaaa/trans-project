@@ -1,5 +1,5 @@
 from mesa import Agent 
-from abc import abstractmethod 
+from abc import abstractmethod
 from queue import Queue
 
 class Building(Agent):
@@ -27,39 +27,51 @@ class Street(Agent):
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
         self.direccion = 1
 
-def get_direction(prev_pos, new_pos):
-    #print(f"{prev_pos=}")
-    #print(f"{new_pos=}")
-    x1,y1 = prev_pos
-    x2,y2 = new_pos 
-    if x2 > x1: # der
-        return 2
-    elif x2 < x1: # izq
-        return 3
-    elif y2 > y1:
-        return 0
-    else:
-        return 1
-
 class Vehicle(Agent):
-    def __init__(self, unique_id, model, position, destiny, direction):
+    def __init__(self, unique_id, model, position, destiny) -> None:
         super().__init__(unique_id, model)
         self.show = True 
         self.position = position
         self.destiny = destiny
-        self.direction = direction
         self.path = Queue() 
     
+    @abstractmethod
+    def prune_neighbors(self, possible_steps):
+        ...
+
+    @classmethod
+    def get_direction(prev_pos, new_pos):
+        #print(f"{prev_pos=}")
+        #print(f"{new_pos=}")
+        x1,y1 = prev_pos
+        x2,y2 = new_pos 
+        if x2 > x1: # der
+            return 2
+        elif x2 < x1: # izq
+            return 3
+        elif y2 > y1:
+            return 0
+        else:
+            return 1
+
     def get_neighbors(self, pos):
         curr_cel = self.model.grid.get_cell_list_contents(pos)
         curr_street_dir = 1
+        parking = False
         for elem in curr_cel:
             if type(elem) is Street:
                 curr_street_dir = elem.direccion
+            if type(elem) is Parking:
+                parking = True
         x,y = pos
         possible_steps = []        
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
-        if curr_street_dir == 0:
+        if parking:
+            possible_steps.append((x, y-1))    
+            possible_steps.append((x, y+1))    
+            possible_steps.append((x+1, y))    
+            possible_steps.append((x-1, y))    
+        elif curr_street_dir == 0:
             possible_steps.append((x, y+1))    
             possible_steps.append((x+1, y))    
             possible_steps.append((x-1, y))    
@@ -75,39 +87,31 @@ class Vehicle(Agent):
             possible_steps.append((x-1, y))    
             possible_steps.append((x, y-1))    
             possible_steps.append((x, y+1))    
-        width = self.model.grid.width
-        heigth = self.model.grid.height
-        valid_steps = [(px, py) for px,py in possible_steps
-                       if px >= 0 and  px < width and
-                       py >= 0 and py < heigth]
-        street_steps = []
-        for position in valid_steps:
-            cell = self.model.grid.get_cell_list_contents(position)
-            for value in cell:
-                if type(value) is Street or type(value) is Parking:
-                    street_steps.append((position))
-                    break
 
-        return tuple(street_steps)
+        return self.prune_neighbors(possible_steps)
 
-    def move(self):
+    def restore_path(self, path) -> None:
+        x, y = self.destiny
+        restored_path = [(x, y)]
+
+        while path[x][y] != (-1, -1):
+            x, y = path[x][y]
+            restored_path.append((x, y))
+
+        path_steps = restored_path[::-1]
+        print(f"{path_steps=}")
+        for step in path_steps:
+            self.path.put(step)
+
+    
+    def move(self) -> None:
         if not self.path.empty():
             new_position = self.path.get()
             self.model.grid.move_agent(self, new_position)
         else:
             self.show = False
 
-    @abstractmethod
-    def get_path(self):
-        ...
-    
-class Car(Vehicle):
-    def __init__(self, unique_id, model, position, destiny, direction):
-        super().__init__(unique_id, model, position, destiny, direction)
-
-    def get_path(self):
-#        print(f"{self.position=}")
-#        print(f"{self.destiny=}")
+    def get_path(self) -> None:
         width = self.model.grid.width
         heigth = self.model.grid.height
         visited = [[False for _ in range(heigth)] for _ in range(width)]
@@ -127,25 +131,30 @@ class Car(Vehicle):
 
         self.restore_path(path)
 
-    def restore_path(self, path):
-        x, y = self.destiny
-        restored_path = [(x, y)]
-
-        while path[x][y] != (-1, -1):
-            x, y = path[x][y]
-            restored_path.append((x, y))
-
-        path_steps = restored_path[::-1]
-        print(f"{path_steps=}")
-        for step in path_steps:
-            self.path.put(step)
-        #self.path.get()
     
-    
-    def step(self):
+class Car(Vehicle):
+    def __init__(self, unique_id, model, position, destiny):
+        super().__init__(unique_id, model, position, destiny)
+
+    def prune_neighbors(self, possible_steps):
+        width = self.model.grid.width
+        heigth = self.model.grid.height
+        valid_steps = [(px, py) for px,py in possible_steps
+                       if px >= 0 and  px < width and
+                       py >= 0 and py < heigth]
+        street_steps = []
+        for position in valid_steps:
+            cell = self.model.grid.get_cell_list_contents(position)
+            for value in cell:
+                if type(value) is Street or type(value) is Parking:
+                    street_steps.append((position))
+
+        return tuple(street_steps)
+
+    def step(self) -> None:
         self.move()
     
-    def advance(self):
+    def advance(self) -> None:
         print("", end="")
 
 
