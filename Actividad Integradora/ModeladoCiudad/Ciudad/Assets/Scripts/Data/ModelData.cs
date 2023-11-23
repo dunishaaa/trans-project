@@ -6,6 +6,7 @@ using System;
 [Serializable]
 public class ModelData
 {
+    (int, int) gridSize;
     List<AgentData> cars;
     List<AgentData> metrobuses;
     List<AgentData> pedestrians;
