@@ -49,15 +49,18 @@ def agent_portrayal(agent):
         }
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
         if agent.direccion == 0:
-            portrayal["Color"] = "white"
+            # portrayal["Color"] = "brown"
             portrayal["Color"] = "gray"
         if agent.direccion == 1:
             portrayal["Color"] = "gray"
         if agent.direccion == 2:
-            portrayal["Color"] = "red"
+            # portrayal["Color"] = "red"
             portrayal["Color"] = "gray"
         if agent.direccion == 3:
-            portrayal["Color"] = "magenta"
+            # portrayal["Color"] = "magenta"
+            portrayal["Color"] = "gray"
+        if agent.direccion == 4:
+            # portrayal["Color"] = "purple"
             portrayal["Color"] = "gray"
             #portrayal["Color"] = (128,128,128)
     if type(agent) is Car:
@@ -65,27 +68,64 @@ def agent_portrayal(agent):
             "Shape": "circle",
             "Filled": "true",
             "Layer": 3,
-            "Color": "purple",
+            "Color": "brown",
             "r": 0.8
         }
         if not agent.show:
             portrayal["Color"] = "gray"
+    
+    if type(agent) is Sidewalk:
+        portrayal = {
+            "Shape": "rect",
+            "Filled": "true",
+            "Color": "green",
+            "Layer": 1,
+            "w": 1,
+            "h": 1,
+        }
+    if type(agent) is Crosswalk:
+        portrayal = {
+            "Shape": "circle",
+            "Filled": "true",
+            "Layer": 2,
+            "Color": "white",
+            "r": 1
+        }
+    if type(agent) is StreetBus:
+        portrayal = {
+            "Shape": "rect",
+            "Filled": "true",
+            "Color": "purple",
+            "Layer": 1,
+            "w": 1,
+            "h": 1,
+        }
+    if type(agent) is BusStop:
+        portrayal = {
+            "Shape": "rect",
+            "Filled": "true",
+            "Color": "orange",
+            "Layer": 1,
+            "w": 1,
+            "h": 1,
+        }
+
         
     return portrayal
 
 
 
-var = 28
-num_cars = 100 
-grid = CanvasGrid(agent_portrayal, var, var)
+var = 34
+num_cars = 1 
+grid = CanvasGrid(agent_portrayal, 37, 37)
 
 server = ModularServer(
     MapModel,
     [grid],
     "Cleaning the grid",
     {
-        "width": var,
-        "height":  var,
+        "width": 37,
+        "height":  37,
         "number_cars": num_cars
     },
 )
