@@ -36,7 +36,7 @@ class Vehicle(Agent):
 
     def get_neighbors(self, pos):
         curr_cel = self.model.grid.get_cell_list_contents(pos)
-        curr_street_dir = 1
+        curr_street_dir = None
         parking = False
         for elem in curr_cel:
             if type(elem) is Street:
@@ -46,11 +46,11 @@ class Vehicle(Agent):
         x,y = pos
         possible_steps = []        
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
-        if parking:
-            possible_steps.append((x, y-1))    
+        if parking or curr_street_dir == 4:
             possible_steps.append((x, y+1))    
+            possible_steps.append((x, y-1))
             possible_steps.append((x+1, y))    
-            possible_steps.append((x-1, y))    
+            possible_steps.append((x-1, y))
         elif curr_street_dir == 0:
             possible_steps.append((x, y+1))    
             possible_steps.append((x+1, y))    
@@ -67,6 +67,9 @@ class Vehicle(Agent):
             possible_steps.append((x-1, y))    
             possible_steps.append((x, y-1))    
             possible_steps.append((x, y+1))    
+  
+            
+        print(f"get_neigh {possible_steps=}")
 
         return self.prune_neighbors(possible_steps)
 
@@ -132,6 +135,7 @@ class Vehicle(Agent):
         while not q.empty():
             x, y= q.get()
             possible_steps = self.get_neighbors((x, y))
+            print(f"{x=}, {y=}, {possible_steps=}")
             for to_x, to_y in possible_steps:
                 if not visited[to_x][to_y]:
                     path[to_x][to_y] = (x,y)
