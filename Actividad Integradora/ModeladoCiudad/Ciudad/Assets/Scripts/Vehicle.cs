@@ -4,9 +4,4 @@ using UnityEngine;
 
 public class Vehicle : Agent 
 {
-    public override void Move()
-    {
-        throw new System.NotImplementedException();
-    }
-
 }

@@ -1,33 +1,65 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Android;
 
 public abstract class Agent : MonoBehaviour
 {
+
+    public float speed;
+    public float rotationSpeed;
+    public Vector3 targetPosition;
+    public Transform m_Transform;
+
     private int id;
 
-    public Transform currentPosition;
-    public Transform targetPosition;
+    private void Start()
+    {
+        m_Transform = GetComponent<Transform>();
+    }
+
+    private void Update()
+    {
+        Move();
+    }
+
 
     public int GetId()
     {
         return id;
     }
 
-    public void SetCurrentAndTargetPositions(Transform current, Transform target)
+    public void SetCurrentAndTargetPositions(Vector3 target)
     {
-        currentPosition = current;
         targetPosition = target; 
     }
 
-    public void GetData()
+    public void Move()
     {
-        // TODO conexion a la API, probablement hay que crear una interfaz
-        print("aksdjfk");
+        Vector3 currentPosition = m_Transform.position;
+        float distance = Vector3.Distance(currentPosition, targetPosition);
+
+        if (distance > 0.9)
+        {
+            Vector3 displacementVector = targetPosition - currentPosition;
+            Vector3 targetDirection = Vector3.Normalize(displacementVector);
+
+            Vector3 currentDirection = m_Transform.forward;
+            Vector3 newDirection = Vector3.RotateTowards(
+                currentDirection,
+                targetDirection,
+                rotationSpeed * Time.deltaTime, 0.0f
+                );
+
+            m_Transform.rotation = Quaternion.LookRotation(newDirection);
+            m_Transform.position += speed * Time.deltaTime * newDirection;
+
+        }
+
+        
     }
 
-    public abstract void Move();
 
 
 }
