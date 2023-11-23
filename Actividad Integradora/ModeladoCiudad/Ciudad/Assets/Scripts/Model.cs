@@ -43,54 +43,104 @@ public class Model: MonoBehaviour
 
             agents.Add(gb);
         }
+//        InitializeModel();
 
 
+    }
+
+    private void Update()
+    {
+
+        // si la distancia es menor a algo, pedir el siguiente paso
     }
 
 
     private void GetData()
     {
+        // llamada al servidor de todos los agentes
+    }
+    private void InitializeModel()
+    {
+        // llamar al servidor para inicializar el servidor en mesa;
+        //GetData();
+        /// for i in getdata() createAgent();
 
     }
 
-    private void TransformCoordinates()
+    private void UpdateAgents()
     {
+
+    }
+
+
+    private (float, float) TransformCoordinates((float, float ) position)
+    {
+        return position;
 
     }
 
     private void CreateAgent(int agentType, AgentData agent)
     {
         // 0 car || 1 metrobus || 2 pedestrian
-        float x, y, z;
-        x = agent.x;
+        float y;
+        int randomIndex;
+        (float, float) position = TransformCoordinates((agent.x, agent.y)); 
+        
         y = 50f;
-        z = agent.y;
-        Vector3 spawnPosition = new Vector3(x, y, z);
+        Vector3 spawnPosition = new Vector3(position.Item1, y, position.Item2);
         switch (agentType)
         {
+
             case 0:
-                int randomIndex = Random.Range(0, carsList.Count);
+                randomIndex = Random.Range(0, carsList.Count);
                 GameObject newCar = carsList[randomIndex];
+                newCar = Instantiate(newCar, spawnPosition, Quaternion.identity); 
+                cars[agent.id] = newCar;
                 break;
             case 1:
-                //imple
+                randomIndex = Random.Range(0, metrobuses.Count);
+                GameObject newMetrobus= carsList[randomIndex];
+                newMetrobus = Instantiate(newMetrobus, spawnPosition, Quaternion.identity);
+                metrobuses[agent.id] = newMetrobus;
                 break;
             case 2:
-                //imple
+                randomIndex = Random.Range(0, pedestrians.Count);
+                GameObject newPedestrian = carsList[randomIndex];
+                newPedestrian = Instantiate(newPedestrian, spawnPosition, Quaternion.identity);
+                pedestrians[agent.id] = newPedestrian;
                 break;
             default:
                 break;
         }
     }
 
-    private void InitializeModel()
+   
+    private void UpdateAgent(int agentType, AgentData agent)
     {
-        // llamar al servidor para inicializar el servidor en mesa;
+        GameObject currentAgent;
+        (float, float) position = TransformCoordinates((agent.x, agent.y)); 
 
-    }
-
-    private void UpdateAgents()
-    {
+        Vector3 nextDirection = new Vector3(position.Item1, 50f, position.Item2);
+        switch (agentType)
+        {
+            case 0:
+                currentAgent = cars[agent.id];
+                Car car = currentAgent.GetComponent<Car>();
+                car.targetPosition = nextDirection;
+                break;
+            case 1:
+                currentAgent = metrobuses[agent.id];
+                Metrobus metrobus = currentAgent.GetComponent<Metrobus>();
+                metrobus.targetPosition = nextDirection;
+                break;
+            case 2:
+                currentAgent = pedestrians[agent.id];
+                Pedestrian pedestrian = currentAgent.GetComponent<Pedestrian>();
+                pedestrian.targetPosition = nextDirection;
+                break;
+            default:
+                break;
+        }
     }
 
 
