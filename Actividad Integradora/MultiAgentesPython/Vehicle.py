@@ -13,6 +13,7 @@ class Vehicle(Agent):
         self.show = True 
         self.position = position
         self.destiny = destiny
+        self.direccion = None
         self.path = Queue() 
     
     @abstractmethod
@@ -20,18 +21,23 @@ class Vehicle(Agent):
         ...
 
     @classmethod
-    def get_direction(prev_pos, new_pos):
+    def get_direction(self, prev_pos, new_pos):
         #print(f"{prev_pos=}")
         #print(f"{new_pos=}")
         x1,y1 = prev_pos
         x2,y2 = new_pos 
         if x2 > x1: # der
+            self.direccion = 2
             return 2
+        
         elif x2 < x1: # izq
+            self.direccion = 3
             return 3
         elif y2 > y1:
+            self.direccion = 0
             return 0
         else:
+            self.direccion = 1
             return 1
 
     def get_neighbors(self, pos):
@@ -69,7 +75,7 @@ class Vehicle(Agent):
             possible_steps.append((x, y+1))    
   
             
-        print(f"get_neigh {possible_steps=}")
+        #print(f"get_neigh {possible_steps=}")
 
         return self.prune_neighbors(possible_steps)
 
@@ -135,7 +141,7 @@ class Vehicle(Agent):
         while not q.empty():
             x, y= q.get()
             possible_steps = self.get_neighbors((x, y))
-            print(f"{x=}, {y=}, {possible_steps=}")
+            #print(f"{x=}, {y=}, {possible_steps=}")
             for to_x, to_y in possible_steps:
                 if not visited[to_x][to_y]:
                     path[to_x][to_y] = (x,y)

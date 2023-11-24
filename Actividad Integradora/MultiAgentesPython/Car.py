@@ -5,6 +5,7 @@ from Street import Street
 class Car(Vehicle):
     def __init__(self, unique_id, model, position, destiny):
         super().__init__(unique_id, model, position, destiny)
+        self.pos = position
 
     def prune_neighbors(self, possible_steps):
         width = self.model.grid.width
