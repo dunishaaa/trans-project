@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Model: MonoBehaviour
 {
@@ -29,13 +31,13 @@ public class Model: MonoBehaviour
         
         for(int i = 0; i < numberOfCars; i++)
         {
-            int randomIndex = Random.Range(0, carsList.Count);
+            int randomIndex = UnityEngine.Random.Range(0, carsList.Count);
             GameObject newCar = carsList[randomIndex];
 
             float x, y, z;
-            x = Random.Range(0, 300);
+            x = UnityEngine.Random.Range(0, 300);
             y = 50f;
-            z = Random.Range(0, 300);
+            z = UnityEngine.Random.Range(0, 300);
 
             Vector3 spawnPosition = new Vector3(x, y, z);
 
@@ -55,8 +57,27 @@ public class Model: MonoBehaviour
     }
 
 
-    private void GetData()
+    private IEnumerator GetData(Action<ModelData> callback)
     {
+        string url = "http://127.0.0.1:5000/get-data";
+
+        using (UnityWebRequest getRequest = UnityWebRequest.Get(url))
+        {
+            yield return getRequest.SendWebRequest();
+
+            if (getRequest.result == UnityWebRequest.Result.Success) {
+                string response = getRequest.downloadHandler.text;
+                Debug.Log(response);
+                ModelData modelData = JsonUtility.FromJson<ModelData>(response);
+                callback?.Invoke(modelData);
+            }
+            else
+            {
+                Debug.Log("Server connection failed!");
+            }
+
+        }
+
         // llamada al servidor de todos los agentes
     }
     private void InitializeModel()
@@ -67,9 +88,24 @@ public class Model: MonoBehaviour
 
     }
 
-    private void UpdateAgents()
+    private void UpdateAgents(ModelData data)
     {
+        //Cars
+        foreach(AgentData agentData in data.cars)
+        {
+            UpdateAgent(0, agentData);
+        }
+        //Metrobus
+        foreach(AgentData agentData in data.cars)
+        {
+            UpdateAgent(1, agentData);
+        }
 
+        //Pedestrian
+        foreach(AgentData agentData in data.cars)
+        {
+            UpdateAgent(2, agentData);
+        }
     }
 
 
@@ -92,19 +128,19 @@ public class Model: MonoBehaviour
         {
 
             case 0:
-                randomIndex = Random.Range(0, carsList.Count);
+                randomIndex = UnityEngine.Random.Range(0, carsList.Count);
                 GameObject newCar = carsList[randomIndex];
                 newCar = Instantiate(newCar, spawnPosition, Quaternion.identity); 
                 cars[agent.id] = newCar;
                 break;
             case 1:
-                randomIndex = Random.Range(0, metrobuses.Count);
+                randomIndex = UnityEngine.Random.Range(0, metrobuses.Count);
                 GameObject newMetrobus= carsList[randomIndex];
                 newMetrobus = Instantiate(newMetrobus, spawnPosition, Quaternion.identity);
                 metrobuses[agent.id] = newMetrobus;
                 break;
             case 2:
-                randomIndex = Random.Range(0, pedestrians.Count);
+                randomIndex = UnityEngine.Random.Range(0, pedestrians.Count);
                 GameObject newPedestrian = carsList[randomIndex];
                 newPedestrian = Instantiate(newPedestrian, spawnPosition, Quaternion.identity);
                 pedestrians[agent.id] = newPedestrian;
