@@ -11,15 +11,19 @@ from Sidewalk import Sidewalk
 from Crosswalk import Crosswalk
 from StreetBus import StreetBus
 from BusStop import BusStop
+from Bus import Bus
 
 
 class MapModel(Model):
-    def __init__(self, width, height, number_cars):
+    def __init__(self, width, height, number_cars, number_buses):
         self.grid = MultiGrid(width, height, True)
         self.number_cars = number_cars
+        self.number_buses = number_buses
         self.schedule = StagedActivation(self)
         self.running = True
         self.steps = 0
+        self.dictionary = {}
+        self.dictionary["cars"] = []
         size = 1
         self.parking_lots = [(7, 7), (5, 13), (7, 16), (6, 24), (14, 25), (7, 30), (12, 31), (14, 5), (
             16, 9), (15, 16), (13, 14), (25, 5), (30, 8), (30, 13), (28, 16), (25, 25), (31, 30)]
@@ -157,13 +161,69 @@ class MapModel(Model):
         
         
         self.spls = [(7, 8), (4, 13), (7, 17), (6, 23), (14, 26), (7, 29), (12, 32), (14, 4), (17, 9), (15, 17),
-                     (12, 14), (26, 5), (25, 4), (29, 8), (30, 9), (30, 12), (28, 17), (25, 26), (26, 25), (32, 30)]
+                     (12, 14), (25, 4), (29, 8), (30, 12), (28, 17), (26, 25), (32, 30)]
 
         
         self.create_pkl(self.spls)
         self.create_cars_in_lots()
+        self.create_crosswalk(self.crosswalk_list)
+        self.ubication((0,0),(36,36))
+        self.dictionary["cars"] = []
+        self.dictionary["metrobuses"] = []
+        self.dictionary["pedestrians"] = []
+
+        self.create_buses()
 
         #     self.grid.place_agent(calle, i)
+        
+    def get_direction(self, cell):
+        x,y = cell
+        left = (x-1,y)
+        right = (x+1,y)
+        up = (x,y-1)
+        down = (x,y+1)
+        cell_content_left = self.grid.get_cell_list_contents(left)
+        cell_content_right = self.grid.get_cell_list_contents(right)
+        cell_content_up = self.grid.get_cell_list_contents(up)
+        cell_content_down = self.grid.get_cell_list_contents(down)
+        
+        if Street in cell_content_left:
+            return 3
+        elif Street in cell_content_right:
+            return 2    
+        elif Street in cell_content_up: 
+            return 0
+        elif Street in cell_content_down:
+            return 1
+        
+        
+        
+        
+    def ubication(self, cell, last_cell):
+        actual_cell = (0, 0)
+        initial_x, initial_y = cell
+        
+        while actual_cell != last_cell:
+            actual_cell = cell
+            x, y = cell
+            last_x, last_y = last_cell
+            if (y <= last_y and x <= last_x):
+                cell_content = self.grid.get_cell_list_contents((x, y))
+                for value in cell_content:
+                    dic = {}
+                    if type(value) is Car:
+                        dic["id"] = (x,y)
+                        dic["x"] = x
+                        dic["y"] = y
+                        self.dictionary["cars"].append(dic)
+
+                        
+                cell = (x, y + 1)
+            else:
+                cell = (x + 1, initial_y)
+        print(self.dictionary)
+    
+        
         
     def create_busstop(self, spls):
         for i in spls:
@@ -180,7 +240,7 @@ class MapModel(Model):
         for i in splw:
             crosswalk = Crosswalk(i, self)
             self.grid.place_agent(crosswalk, (i))
-
+              
     def create_cars_in_lots(self):
         pini = (6, 6)
         pdest = (23, 22)
@@ -190,9 +250,21 @@ class MapModel(Model):
             while ini == dest:
                 dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
             carAg = Car(i, self, ini, dest)
+            carAg.pos = ini
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
             carAg.get_path()
+            
+    def create_buses(self):
+        pini = (1,23)
+
+        for i in range(self.number_buses):
+            busAg = Bus(100000, self)
+            busAg.pos = pini
+            self.grid.place_agent(busAg, pini)
+            self.schedule.add(busAg)
+            # self.schedule.add(busAg)
+
     
     def create_streetbus(self, cell, last_cell, direccion):
         actual_cell = (0, 0)
@@ -236,7 +308,7 @@ class MapModel(Model):
             actual_cell = cell
             x, y = cell
             last_x, last_y = last_cell
-
+            #cell_content = self.grid.get_cell_list_contents((x, y))
             if (y <= last_y and x <= last_x):
                 sidewalk = Sidewalk((actual_cell), self)
                 self.grid.place_agent(sidewalk, (actual_cell))
@@ -313,4 +385,13 @@ class MapModel(Model):
             self.manage_traffic(self.lol2, self.steps, 2)
             self.steps = 0
         # print(self.parking_lots)
+        self.ubication((0,0),(36,36))
+        self.dictionary["cars"] = []
         self.schedule.step()
+        
+
+
+if __name__ == "__main__":
+    model = MapModel(37, 37, 10)
+    while model.running:
+        model.step()
