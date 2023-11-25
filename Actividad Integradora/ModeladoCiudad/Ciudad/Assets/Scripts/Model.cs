@@ -28,7 +28,7 @@ public class Model: MonoBehaviour
         cars = new Dictionary<(int, int), GameObject>();
         metrobuses = new Dictionary<(int, int), GameObject>();
         pedestrians = new Dictionary<(int, int), GameObject>();
-        
+        /*
         for(int i = 0; i < numberOfCars; i++)
         {
             int randomIndex = UnityEngine.Random.Range(0, carsList.Count);
@@ -45,6 +45,7 @@ public class Model: MonoBehaviour
 
             agents.Add(gb);
         }
+        */
 //        InitializeModel();
 
 
