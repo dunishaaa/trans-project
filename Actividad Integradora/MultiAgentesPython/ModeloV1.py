@@ -22,8 +22,6 @@ class MapModel(Model):
         self.schedule = StagedActivation(self)
         self.running = True
         self.steps = 0
-        self.dictionary = {}
-        self.dictionary["cars"] = []
         size = 1
         self.parking_lots = [(7, 7), (5, 13), (7, 16), (6, 24), (14, 25), (7, 30), (12, 31), (14, 5), (
             16, 9), (15, 16), (13, 14), (25, 5), (30, 8), (30, 13), (28, 16), (25, 25), (31, 30)]
@@ -168,9 +166,6 @@ class MapModel(Model):
         self.create_cars_in_lots()
         self.create_crosswalk(self.crosswalk_list)
         self.ubication((0,0),(36,36))
-        self.dictionary["cars"] = []
-        self.dictionary["metrobuses"] = []
-        self.dictionary["pedestrians"] = []
 
         self.create_buses()
 
@@ -200,8 +195,13 @@ class MapModel(Model):
         
         
     def ubication(self, cell, last_cell):
+        dict = {}
+        dict["gridSize"] = (36, 36)
+        dict["cars"] = []
+        dict["metrobuses"] = []
+        dict["pedestrians"] = []
         actual_cell = (0, 0)
-        initial_x, initial_y = cell
+        initial_x, initial_y = actual_cell
         
         while actual_cell != last_cell:
             actual_cell = cell
@@ -212,16 +212,18 @@ class MapModel(Model):
                 for value in cell_content:
                     dic = {}
                     if type(value) is Car:
-                        dic["id"] = (x,y)
+                        dic["id"] = value.unique_id
                         dic["x"] = x
                         dic["y"] = y
-                        self.dictionary["cars"].append(dic)
+                        dict["cars"].append(dic)
 
                         
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-        print(self.dictionary)
+
+        return dict
+        
     
         
         
@@ -384,14 +386,13 @@ class MapModel(Model):
             self.manage_traffic(self.lol1, self.steps, 0)
             self.manage_traffic(self.lol2, self.steps, 2)
             self.steps = 0
-        # print(self.parking_lots)
+        #print(self.parking_lots)
         self.ubication((0,0),(36,36))
-        self.dictionary["cars"] = []
         self.schedule.step()
         
 
 
 if __name__ == "__main__":
-    model = MapModel(37, 37, 10)
+    model = MapModel(37, 37, 10, 1)
     while model.running:
         model.step()

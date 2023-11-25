@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 
 public class Model: MonoBehaviour
 {
-    public int numberOfCars = 2;
     public List<GameObject> carsList;
     public List<GameObject> metrobusList;
     public List<GameObject> pedestriansList;
@@ -28,25 +27,8 @@ public class Model: MonoBehaviour
         cars = new Dictionary<(int, int), GameObject>();
         metrobuses = new Dictionary<(int, int), GameObject>();
         pedestrians = new Dictionary<(int, int), GameObject>();
-        /*
-        for(int i = 0; i < numberOfCars; i++)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, carsList.Count);
-            GameObject newCar = carsList[randomIndex];
 
-            float x, y, z;
-            x = UnityEngine.Random.Range(0, 300);
-            y = 50f;
-            z = UnityEngine.Random.Range(0, 300);
-
-            Vector3 spawnPosition = new Vector3(x, y, z);
-
-            GameObject gb = Instantiate(newCar, spawnPosition, Quaternion.identity);
-
-            agents.Add(gb);
-        }
-        */
-//        InitializeModel();
+        InitializeModel();
 
 
     }
@@ -57,10 +39,39 @@ public class Model: MonoBehaviour
         // si la distancia es menor a algo, pedir el siguiente paso
     }
 
+    private (float, float) TransformCoordinates((float, float ) position)
+    {
+        return position;
 
+    }
+
+    private IEnumerator GetDataInit(Action<ModelData> callback)
+    {
+        string url = "http://127.0.0.1:5000/init";
+
+        using (UnityWebRequest getRequest = UnityWebRequest.Get(url))
+        {
+            yield return getRequest.SendWebRequest();
+
+            if (getRequest.result == UnityWebRequest.Result.Success) {
+                string response = getRequest.downloadHandler.text;
+                Debug.Log(response);
+                ModelData modelData = JsonUtility.FromJson<ModelData>(response);
+                callback?.Invoke(modelData);
+            }
+            else
+            {
+                Debug.Log("Server connection failed!");
+            }
+
+        }
+
+        // llamada al servidor de todos los agentes
+    }
     private IEnumerator GetData(Action<ModelData> callback)
     {
-        string url = "http://127.0.0.1:5000/get-data";
+
+        string url = "http://127.0.0.1:5000/data";
 
         using (UnityWebRequest getRequest = UnityWebRequest.Get(url))
         {
@@ -83,8 +94,13 @@ public class Model: MonoBehaviour
     }
     private void InitializeModel()
     {
-        // llamar al servidor para inicializar el servidor en mesa;
-        //GetData();
+        StartCoroutine(GetDataInit((modelData) =>
+        {
+            //Debug.Log(modelData.ToString());
+            ///Debug.Log(modelData.cars);
+            CreateAgents(modelData);
+
+        }));
         /// for i in getdata() createAgent();
 
     }
@@ -108,13 +124,27 @@ public class Model: MonoBehaviour
             UpdateAgent(2, agentData);
         }
     }
-
-
-    private (float, float) TransformCoordinates((float, float ) position)
+    private void CreateAgents(ModelData data)
     {
-        return position;
+        //Cars
+        foreach(AgentData agentData in data.cars)
+        {
+            CreateAgent(0, agentData);
+        }
+        //Metrobus
+        foreach(AgentData agentData in data.cars)
+        {
+            CreateAgent(1, agentData);
+        }
 
+        //Pedestrian
+        foreach(AgentData agentData in data.cars)
+        {
+            CreateAgent(2, agentData);
+        }
     }
+
+
 
     private void CreateAgent(int agentType, AgentData agent)
     {
