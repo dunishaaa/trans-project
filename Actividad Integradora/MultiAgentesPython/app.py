@@ -1,8 +1,9 @@
-from flask import Flask
+from flask import Flask, jsonify
 import json
-
+import logging
+from ModeloV1 import *
 app = Flask(__name__)
-
+app.logger.setLevel(logging.DEBUG)
 class AgentData():
     def __init__(self, id, direction, x, y):
         self.id = id
@@ -16,11 +17,25 @@ class AgentData():
 #         self.cars = cars
 #         self.metrobuses = metrobuses
 #         self.pedestrians = pedestrians
+model = None
+@app.route("/")
+def hello():
+    return "<p>Hola</p>"
     
 
-@app.route("/initialize")
-def initialize():
-    return"<p>Server initialized</p>"
+@app.get("/init")
+def init(width=37, height=37, number_cars=20, number_buses=1):
+    model = MapModel(width, height, number_cars, number_buses)
+    data = model.ubication((0,0), (36, 36))
+    return jsonify(data)
+
+@app.get("/get-data")
+def get_model_data():
+    model.step()
+    data = model.ubication((0,0), (36, 36))
+    return jsonify(data)
+    
+    
 
 @app.get("/get-agent-dictionary")
 def get_agent_dictionary():
@@ -46,9 +61,6 @@ def get_agent_dictionary():
 
     return json.dumps(agent_dictionary)
 
-# @app.get("/get-model-data")
-# def get_model_data():
-    
 
 if __name__ == "__main__":
     app.run(debug=True)

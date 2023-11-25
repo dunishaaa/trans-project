@@ -162,9 +162,72 @@ class MapModel(Model):
         
         self.create_pkl(self.spls)
         self.create_cars_in_lots()
+<<<<<<< Updated upstream
 
         #     self.grid.place_agent(calle, i)
         
+=======
+        self.create_crosswalk(self.crosswalk_list)
+        #self.ubication((0,0),(36,36))
+        self.dictionary["cars"] = []
+        self.dictionary["metrobuses"] = []
+        self.dictionary["pedestrians"] = []
+
+        self.create_buses()
+
+        #     self.grid.place_agent(calle, i)
+        
+    def get_direction(self, cell):
+        x,y = cell
+        left = (x-1,y)
+        right = (x+1,y)
+        up = (x,y-1)
+        down = (x,y+1)
+        cell_content_left = self.grid.get_cell_list_contents(left)
+        cell_content_right = self.grid.get_cell_list_contents(right)
+        cell_content_up = self.grid.get_cell_list_contents(up)
+        cell_content_down = self.grid.get_cell_list_contents(down)
+        
+        if Street in cell_content_left:
+            return 3
+        elif Street in cell_content_right:
+            return 2    
+        elif Street in cell_content_up: 
+            return 0
+        elif Street in cell_content_down:
+            return 1
+        
+        
+        
+        
+    def ubication(self, cell, last_cell):
+        actual_cell = (0, 0)
+        initial_x, initial_y = cell
+        
+        while actual_cell != last_cell:
+            actual_cell = cell
+            x, y = cell
+            last_x, last_y = last_cell
+            if (y <= last_y and x <= last_x):
+                cell_content = self.grid.get_cell_list_contents((x, y))
+                for value in cell_content:
+                    dic = {}
+                    if type(value) is Car:
+                        dic["id"] = (x,y)
+                        dic["x"] = x
+                        dic["y"] = y
+                        self.dictionary["cars"].append(dic)
+
+                        
+                cell = (x, y + 1)
+            else:
+                cell = (x + 1, initial_y)
+        #print(self.dictionary)
+        return self.dictionary
+    
+        
+        
+>>>>>>> Stashed changes
     def create_busstop(self, spls):
         for i in spls:
             busstop = BusStop(i, self)
@@ -313,4 +376,9 @@ class MapModel(Model):
             self.manage_traffic(self.lol2, self.steps, 2)
             self.steps = 0
         # print(self.parking_lots)
+<<<<<<< Updated upstream
+=======
+        #self.ubication((0,0),(36,36))
+        self.dictionary["cars"] = []
+>>>>>>> Stashed changes
         self.schedule.step()
