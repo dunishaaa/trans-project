@@ -13,6 +13,8 @@ public class Model: MonoBehaviour
 
     public float gridWidth;
     public float gridHeight;
+    public int number_cars = 1;
+    public float floor_y = -14.1f;
 
     public float modelWidth;
     public float modelHeight;
@@ -30,6 +32,8 @@ public class Model: MonoBehaviour
         pedestrians = new Dictionary<(int, int), GameObject>();
 
         InitializeModel();
+
+        Debug.Log("number of cars: " + cars.Count);
     }
 
     private void Update()
@@ -40,7 +44,7 @@ public class Model: MonoBehaviour
             GameObject val = kvp.Value;
             Transform transform = val.GetComponent<Transform>();
             Car car = transform.GetComponent<Car>();
-            if(Vector3.Distance(car.targetPosition, transform.position) < 1)
+            if(Vector3.Distance(car.targetPosition, transform.position) < 1.0f)
             {
                 StartCoroutine(GetData((modelData) =>
                 {
@@ -66,8 +70,7 @@ public class Model: MonoBehaviour
 
     private IEnumerator GetDataInit(Action<ModelData> callback)
     {
-        string url = "http://127.0.0.1:5000/init";
-
+        string url = "http://127.0.0.1:5000/init/" + number_cars;
         using (UnityWebRequest getRequest = UnityWebRequest.Get(url))
         {
             yield return getRequest.SendWebRequest();
@@ -115,12 +118,9 @@ public class Model: MonoBehaviour
     {
         StartCoroutine(GetDataInit((modelData) =>
         {
-            //Debug.Log(modelData.ToString());
-            Debug.Log(modelData.cars);
             CreateAgents(modelData);
 
         }));
-        /// for i in getdata() createAgent();
 
     }
 
@@ -151,13 +151,13 @@ public class Model: MonoBehaviour
             CreateAgent(0, agentData);
         }
         //Metrobus
-        foreach(AgentData agentData in data.cars)
+        foreach(AgentData agentData in data.metrobuses)
         {
             CreateAgent(1, agentData);
         }
 
         //Pedestrian
-        foreach(AgentData agentData in data.cars)
+        foreach(AgentData agentData in data.pedestrians)
         {
             CreateAgent(2, agentData);
         }
@@ -171,9 +171,13 @@ public class Model: MonoBehaviour
         float y;
         int randomIndex;
         (float, float) position = TransformCoordinates((agent.x, agent.y)); 
+
+        (int, int) id;
+        id.Item1 = agent.id[0];
+        id.Item2 = agent.id[1];
         
-        y = 50f;
-        Vector3 spawnPosition = new Vector3(position.Item1, y, position.Item2);
+        Debug.Log("Agent id on creation: " + id);
+        Vector3 spawnPosition = new Vector3(position.Item1, floor_y, position.Item2);
         switch (agentType)
         {
 
@@ -181,19 +185,19 @@ public class Model: MonoBehaviour
                 randomIndex = UnityEngine.Random.Range(0, carsList.Count);
                 GameObject newCar = carsList[randomIndex];
                 newCar = Instantiate(newCar, spawnPosition, Quaternion.identity); 
-                cars[agent.id] = newCar;
+                cars[id] = newCar;
                 break;
             case 1:
                 randomIndex = UnityEngine.Random.Range(0, metrobuses.Count);
                 GameObject newMetrobus= carsList[randomIndex];
                 newMetrobus = Instantiate(newMetrobus, spawnPosition, Quaternion.identity);
-                metrobuses[agent.id] = newMetrobus;
+                metrobuses[id] = newMetrobus;
                 break;
             case 2:
                 randomIndex = UnityEngine.Random.Range(0, pedestrians.Count);
                 GameObject newPedestrian = carsList[randomIndex];
                 newPedestrian = Instantiate(newPedestrian, spawnPosition, Quaternion.identity);
-                pedestrians[agent.id] = newPedestrian;
+                pedestrians[id] = newPedestrian;
                 break;
             default:
                 break;
@@ -204,23 +208,28 @@ public class Model: MonoBehaviour
     private void UpdateAgent(int agentType, AgentData agent)
     {
         GameObject currentAgent;
-        (float, float) position = TransformCoordinates((agent.x, agent.y)); 
+        (float, float) position = TransformCoordinates((agent.x, agent.y));
 
-        Vector3 nextDirection = new Vector3(position.Item1, 50f, position.Item2);
+        (int, int) id;
+        id.Item1 = agent.id[0];
+        id.Item2 = agent.id[1];
+
+        Debug.Log("Updating car with id: " + id);
+        Vector3 nextDirection = new Vector3(position.Item1, floor_y, position.Item2);
         switch (agentType)
         {
             case 0:
-                currentAgent = cars[agent.id];
+                currentAgent = cars[id];
                 Car car = currentAgent.GetComponent<Car>();
                 car.targetPosition = nextDirection;
                 break;
             case 1:
-                currentAgent = metrobuses[agent.id];
+                currentAgent = metrobuses[id];
                 Metrobus metrobus = currentAgent.GetComponent<Metrobus>();
                 metrobus.targetPosition = nextDirection;
                 break;
             case 2:
-                currentAgent = pedestrians[agent.id];
+                currentAgent = pedestrians[id];
                 Pedestrian pedestrian = currentAgent.GetComponent<Pedestrian>();
                 pedestrian.targetPosition = nextDirection;
                 break;

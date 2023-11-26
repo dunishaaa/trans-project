@@ -246,8 +246,8 @@ class MapModel(Model):
             self.grid.place_agent(crosswalk, (i))
               
     def create_cars_in_lots(self):
-        pini = (6, 6)
-        pdest = (23, 22)
+        pini = (2, 2)
+        pdest = (31, 30)
         for i in range(self.number_cars):
             ini = self.parking_lots[randint(0, len(self.parking_lots)-1)]
             dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
