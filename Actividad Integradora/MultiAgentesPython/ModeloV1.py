@@ -170,7 +170,7 @@ class MapModel(Model):
         self.ubication((0, 0), (36, 36))
 
         self.create_buses(self.lst_buses)
-        self.create_buses()
+#        self.create_buses()
         self.create_cars_in_lots()
 
         #     self.grid.place_agent(calle, i)
@@ -195,14 +195,16 @@ class MapModel(Model):
                 for value in cell_content:
                     dic = {}
                     if type(value) is Car:
+                        dic["direction"] = value.direccion
                         dic["pos"] = value.direccion
                         dic["id"] = value.unique_id
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)
                     elif type(value) is Bus:
-                        dic["id"] = (x, y)
+                        dic["direction"] = value.direccion
                         dic["pos"] = value.direccion
+                        dic["id"] =  value.unique_id
                         dic["x"] = x
                         dic["y"] = y
                         dict["metrobuses"].append(dic)
@@ -210,7 +212,7 @@ class MapModel(Model):
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-        print(dict)
+        #print(dict)
         return dict
 
     def create_busstop(self, spls):
@@ -244,7 +246,7 @@ class MapModel(Model):
             self.current_id += 1
             carAg.pos = ini
             # carAg.direccion = self.get_direction(ini)
-            print(f" direccion inicial {carAg.direccion}")
+            #print(f" direccion inicial {carAg.direccion}")
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
             carAg.get_path()
