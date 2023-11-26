@@ -213,7 +213,7 @@ class MapModel(Model):
                 for value in cell_content:
                     dic = {}
                     if type(value) is Car:
-                        dic["id"] = (x, y)
+                        dic["id"] = value.unique_id
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)

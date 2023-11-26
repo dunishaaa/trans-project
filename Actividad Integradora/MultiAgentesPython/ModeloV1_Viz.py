@@ -124,11 +124,7 @@ def agent_portrayal(agent):
 
 
 var = 34
-<<<<<<< HEAD
 num_cars = 1
-=======
-num_cars = 100
->>>>>>> 45f60e5545dd561b82b50b891e0487d15d65a6d0
 num_buses = 1
 grid = CanvasGrid(agent_portrayal, 37, 37)
 
