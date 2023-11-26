@@ -40,7 +40,23 @@ class Vehicle(Agent):
         else:
             self.direccion = 1
             return 1
-
+        
+    def get_initial_position(self, position):
+        x, y = position
+        possible_steps = []
+        possible_steps.append((x, y+1))    
+        possible_steps.append((x, y-1))
+        possible_steps.append((x+1, y))    
+        possible_steps.append((x-1, y))
+        for step in possible_steps:
+            cell = self.model.grid.get_cell_list_contents(step)
+            for value in cell:
+                if type(value) is Street:
+                    print(f"{self.get_direction(position, step)}")
+                    return self.get_direction(position, step)
+                
+                
+                
     def get_neighbors(self, pos):
         curr_cel = self.model.grid.get_cell_list_contents(pos)
         curr_street_dir = None
@@ -99,6 +115,8 @@ class Vehicle(Agent):
             if self.position == self.path.queue[0]:
                 self.path.get()
             new_position = self.path.queue[0]
+            print(f"{new_position}")
+            # print(f"{self.path.queue[1]}")
             next_cell = self.model.grid.get_cell_list_contents(new_position)
             #print(f"{next_cell}")
             trafficLight = None
@@ -115,7 +133,8 @@ class Vehicle(Agent):
                     carNext = elem
                 if type(elem) is Crosswalk:
                     crosswalk = elem
-
+                if type(elem) is Street:
+                    self.direccion = self.get_direction(self.position, new_position)
 
 
             if trafficLight:

@@ -213,6 +213,7 @@ class MapModel(Model):
                     dic = {}
                     if type(value) is Car:
                         dic["id"] = (x, y)
+                        dic["pos"] = value.direccion
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)
@@ -220,7 +221,7 @@ class MapModel(Model):
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-
+        print(dict)
         return dict
 
     def create_busstop(self, spls):
@@ -252,6 +253,8 @@ class MapModel(Model):
             carAg = Car(self.current_id, self, ini, dest)
             self.current_id += 1
             carAg.pos = ini
+            # carAg.direccion = self.get_direction(ini)
+            print(f" direccion inicial {carAg.direccion}")
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
             carAg.get_path()
