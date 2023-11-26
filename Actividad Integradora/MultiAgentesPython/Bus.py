@@ -12,14 +12,18 @@ class Bus(Agent):
         for value in cell:
             if type(value) is StreetBus:
                 diretion = value.direccion
-                if diretion == 0:
+                if diretion == 0 and self.pos[1]+1 != 36:
                     self.model.grid.move_agent(self, (self.pos[0], self.pos[1] + 1))
-                elif diretion == 1:
+                    print(f"Arriba: {self.pos[0]}, {self.pos[1]+1}")
+                elif diretion == 1 and self.pos[1]-1 != 0:
                     self.model.grid.move_agent(self, (self.pos[0], self.pos[1] - 1))
-                elif diretion == 2:
+                    print(f"Abajo: {self.pos[0]}, {self.pos[1]-1}")
+                elif diretion == 2 and self.pos[0]+1 != 36:
                     self.model.grid.move_agent(self, (self.pos[0] + 1, self.pos[1]))
-                elif diretion == 3:
+                    print(f"Derecha: {self.pos[0]+1}, {self.pos[1]}")
+                elif diretion == 3 and self.pos[0]-1 != 0:
                     self.model.grid.move_agent(self, (self.pos[0] - 1, self.pos[1]))
+                    print(f"Izquierda: {self.pos[0]-1}, {self.pos[1]}")
                 else:
                     print("Error")
             
