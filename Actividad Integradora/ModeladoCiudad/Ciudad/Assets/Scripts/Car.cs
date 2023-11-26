@@ -8,7 +8,7 @@ public class Car : Vehicle
 {
     public Car()
     {
-        speed = 30.0f;
+        speed = 50.0f;
         rotationSpeed = 100f;
     }  
 }

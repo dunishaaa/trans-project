@@ -27,7 +27,6 @@ public class Model: MonoBehaviour
         cars = new Dictionary<int, GameObject>();
         metrobuses = new Dictionary<int, GameObject>();
         pedestrians = new Dictionary<int, GameObject>();
-
         InitializeModel();
 
     }

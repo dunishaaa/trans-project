@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1437342200608300329}
   - component: {fileID: 8764847372387917335}
   - component: {fileID: 4429373948718057584}
-  - component: {fileID: 1767895536572282047}
   m_Layer: 0
   m_Name: calle
   m_TagString: Untagged
@@ -29336,7 +29335,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 504
+  m_VersionIndex: 516
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -29443,28 +29442,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &1767895536572282047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863096905839406614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &1016404389140314197
 GameObject:
   m_ObjectHideFlags: 0
@@ -29479,7 +29456,6 @@ GameObject:
   - component: {fileID: 5310181160707121310}
   - component: {fileID: 8913464919265396815}
   - component: {fileID: 1414442253723989702}
-  - component: {fileID: 3761397139924448828}
   m_Layer: 0
   m_Name: banquetaEdif8
   m_TagString: Untagged
@@ -29904,7 +29880,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 495
+  m_VersionIndex: 507
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -30011,28 +29987,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &3761397139924448828
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016404389140314197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &1741721777086203777
 GameObject:
   m_ObjectHideFlags: 0
@@ -30047,7 +30001,6 @@ GameObject:
   - component: {fileID: 7251769008925949571}
   - component: {fileID: 7384926680386967047}
   - component: {fileID: 3112701474991700284}
-  - component: {fileID: 7995474961369982186}
   m_Layer: 0
   m_Name: banquetaEdif3
   m_TagString: Untagged
@@ -30724,7 +30677,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 501
+  m_VersionIndex: 513
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -30831,28 +30784,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &7995474961369982186
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1741721777086203777}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &2970220751090817377
 GameObject:
   m_ObjectHideFlags: 0
@@ -30867,7 +30798,6 @@ GameObject:
   - component: {fileID: 6370355921947168816}
   - component: {fileID: 76987790174807103}
   - component: {fileID: 2737863955604585052}
-  - component: {fileID: 624689071034569424}
   m_Layer: 0
   m_Name: banquetaEdif12
   m_TagString: Untagged
@@ -31854,7 +31784,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 507
+  m_VersionIndex: 519
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -31961,28 +31891,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &624689071034569424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2970220751090817377}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &3048979337550214791
 GameObject:
   m_ObjectHideFlags: 0
@@ -31997,7 +31905,6 @@ GameObject:
   - component: {fileID: 4625803541140257811}
   - component: {fileID: 8703113240203063112}
   - component: {fileID: 6021361707115055828}
-  - component: {fileID: 3882853853225072090}
   m_Layer: 0
   m_Name: banquetaEdif7
   m_TagString: Untagged
@@ -32393,7 +32300,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 492
+  m_VersionIndex: 504
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -32500,28 +32407,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &3882853853225072090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3048979337550214791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &3135014149884611937
 GameObject:
   m_ObjectHideFlags: 0
@@ -32536,7 +32421,6 @@ GameObject:
   - component: {fileID: 4490520934244037477}
   - component: {fileID: 5102473926765515905}
   - component: {fileID: 3074095007733900852}
-  - component: {fileID: 8555582743594050151}
   m_Layer: 0
   m_Name: Orilla
   m_TagString: Untagged
@@ -39390,7 +39274,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 510
+  m_VersionIndex: 522
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -39497,28 +39381,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &8555582743594050151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3135014149884611937}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &3295226160624864553
 GameObject:
   m_ObjectHideFlags: 0
@@ -39533,7 +39395,6 @@ GameObject:
   - component: {fileID: 2132227164312102551}
   - component: {fileID: 2734081485556227999}
   - component: {fileID: 3545539245802289095}
-  - component: {fileID: 2115211226699409588}
   m_Layer: 0
   m_Name: banquetaEdif4
   m_TagString: Untagged
@@ -40053,7 +39914,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 504
+  m_VersionIndex: 516
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -40160,28 +40021,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &2115211226699409588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3295226160624864553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &3314197503393419304
 GameObject:
   m_ObjectHideFlags: 0
@@ -40196,7 +40035,6 @@ GameObject:
   - component: {fileID: 7613476267251395773}
   - component: {fileID: 28214245214844839}
   - component: {fileID: 8225083753153315813}
-  - component: {fileID: 8911028942073076353}
   m_Layer: 0
   m_Name: camellones
   m_TagString: Untagged
@@ -41745,7 +41583,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 507
+  m_VersionIndex: 519
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -41852,28 +41690,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &8911028942073076353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3314197503393419304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &4303881521174550407
 GameObject:
   m_ObjectHideFlags: 0
@@ -41888,7 +41704,6 @@ GameObject:
   - component: {fileID: 858031654454397093}
   - component: {fileID: 1042427460320352100}
   - component: {fileID: 4979064109768775371}
-  - component: {fileID: 5582931835828194000}
   m_Layer: 0
   m_Name: banquetaEdif9
   m_TagString: Untagged
@@ -42284,7 +42099,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 498
+  m_VersionIndex: 510
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -42391,28 +42206,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &5582931835828194000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4303881521174550407}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &4887691051153804258
 GameObject:
   m_ObjectHideFlags: 0
@@ -42427,7 +42220,6 @@ GameObject:
   - component: {fileID: 5250685552437332193}
   - component: {fileID: 5158165015767156644}
   - component: {fileID: 591120051891769321}
-  - component: {fileID: 4952194056922009173}
   m_Layer: 0
   m_Name: banquetaEdif10
   m_TagString: Untagged
@@ -42852,7 +42644,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 501
+  m_VersionIndex: 513
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -42959,28 +42751,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &4952194056922009173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4887691051153804258}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &5259612712313522398
 GameObject:
   m_ObjectHideFlags: 0
@@ -42995,7 +42765,6 @@ GameObject:
   - component: {fileID: 5679509539292336832}
   - component: {fileID: 1354095939379540695}
   - component: {fileID: 7010057679073805546}
-  - component: {fileID: 4577036999996041547}
   m_Layer: 0
   m_Name: banquetaEdif2
   m_TagString: Untagged
@@ -44048,7 +43817,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 498
+  m_VersionIndex: 510
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -44155,28 +43924,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &4577036999996041547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259612712313522398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &7431671855689643707
 GameObject:
   m_ObjectHideFlags: 0
@@ -44191,7 +43938,6 @@ GameObject:
   - component: {fileID: 5076830340462714191}
   - component: {fileID: 9171475787810838704}
   - component: {fileID: 876827487549859803}
-  - component: {fileID: 1059995590520049441}
   m_Layer: 0
   m_Name: banquetaEdif1
   m_TagString: Untagged
@@ -44773,7 +44519,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 495
+  m_VersionIndex: 507
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -44880,28 +44626,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &1059995590520049441
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7431671855689643707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &7741924604950426760
 GameObject:
   m_ObjectHideFlags: 0
@@ -44916,7 +44640,6 @@ GameObject:
   - component: {fileID: 8293510704852126493}
   - component: {fileID: 4241383661851098621}
   - component: {fileID: 5237504733086102629}
-  - component: {fileID: 8961143879012254402}
   m_Layer: 0
   m_Name: rotonda
   m_TagString: Untagged
@@ -45246,7 +44969,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 504
+  m_VersionIndex: 516
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -45353,28 +45076,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &8961143879012254402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7741924604950426760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &7862126112202480006
 GameObject:
   m_ObjectHideFlags: 0
@@ -45389,7 +45090,6 @@ GameObject:
   - component: {fileID: 3989213803344021971}
   - component: {fileID: 6651803835554646838}
   - component: {fileID: 3321930691470406428}
-  - component: {fileID: 3657319002020219988}
   m_Layer: 0
   m_Name: banquetaEdif11
   m_TagString: Untagged
@@ -46376,7 +46076,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 504
+  m_VersionIndex: 516
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -46483,28 +46183,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &3657319002020219988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7862126112202480006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &7930272680300389812
 GameObject:
   m_ObjectHideFlags: 0
@@ -46519,7 +46197,6 @@ GameObject:
   - component: {fileID: 7040325013211932193}
   - component: {fileID: 4051093654123138811}
   - component: {fileID: 4520722520563140278}
-  - component: {fileID: 4973285261235296341}
   m_Layer: 0
   m_Name: BanquetaEdif6
   m_TagString: Untagged
@@ -47382,7 +47059,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 510
+  m_VersionIndex: 522
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -47489,28 +47166,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &4973285261235296341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7930272680300389812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &8302474560166883184
 GameObject:
   m_ObjectHideFlags: 0
@@ -47525,7 +47180,6 @@ GameObject:
   - component: {fileID: 3707331689040645432}
   - component: {fileID: 8055699532965891540}
   - component: {fileID: 8960666323064444149}
-  - component: {fileID: 2501482548170472560}
   m_Layer: 0
   m_Name: banquetaEdif5
   m_TagString: Untagged
@@ -48045,7 +47699,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 507
+  m_VersionIndex: 519
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -48152,28 +47806,6 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &2501482548170472560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8302474560166883184}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36111a5c7a607974285f402b8493e7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  factor: 10
-  carsList:
-  - {fileID: 7572226276842509210, guid: e4476934dec82bf45910c28f7243f0d1, type: 3}
-  - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
-  metrobusList: []
-  pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
-  floor_y: 2
-  agents: []
 --- !u!1 &8830718354793360111
 GameObject:
   m_ObjectHideFlags: 0
@@ -82382,7 +82014,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 501
+  m_VersionIndex: 513
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -82507,7 +82139,7 @@ MonoBehaviour:
   - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
   metrobusList: []
   pedestriansList: []
-  number_cars: 1
-  err_tolerance: 1
+  number_cars: 4
+  err_tolerance: 2
   floor_y: 2
   agents: []
