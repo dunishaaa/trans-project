@@ -47,12 +47,13 @@ class Vehicle(Agent):
         for elem in curr_cel:
             if type(elem) is Street:
                 curr_street_dir = elem.direccion
-            if type(elem) is Parking:
+            if type(elem) is Parking.Parking:
                 parking = True
         x,y = pos
         possible_steps = []        
         # 0 = arriba | 1 = abajo | 2 = derecha | 3 = izquierda
         if parking or curr_street_dir == 4:
+            #print("adentro del if")
             possible_steps.append((x, y+1))    
             possible_steps.append((x, y-1))
             possible_steps.append((x+1, y))    

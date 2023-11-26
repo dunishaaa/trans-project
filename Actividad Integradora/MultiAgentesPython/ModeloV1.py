@@ -164,11 +164,11 @@ class MapModel(Model):
 
         
         self.create_pkl(self.spls)
-        self.create_cars_in_lots()
         self.create_crosswalk(self.crosswalk_list)
         self.ubication((0,0),(36,36))
 
         self.create_buses()
+        self.create_cars_in_lots()
 
         #     self.grid.place_agent(calle, i)
         
@@ -255,8 +255,8 @@ class MapModel(Model):
             x,y = ini
 
             carAg = Car(self.current_id, self, ini, dest)
+            #print(f"{ini=} -> {dest=}")
             self.current_id += 1
-            carAg.pos = ini
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
             carAg.get_path()
