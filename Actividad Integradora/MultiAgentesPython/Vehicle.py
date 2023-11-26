@@ -6,6 +6,7 @@ from Street import Street
 from TrafficLight import TrafficLight
 import Car
 import Parking
+from Crosswalk import Crosswalk
 
 class Vehicle(Agent):
     def __init__(self, unique_id, model, position, destiny) -> None:
@@ -103,6 +104,7 @@ class Vehicle(Agent):
             trafficLight = None
             carNext = None
             parkingNext = None
+            crosswalk = None
 
             for elem in next_cell:
                 if type(elem) is TrafficLight:
@@ -111,6 +113,8 @@ class Vehicle(Agent):
                     parkingNext = elem
                 if type(elem) is Car.Car:
                     carNext = elem
+                if type(elem) is Crosswalk:
+                    crosswalk = elem
 
 
 
@@ -126,6 +130,8 @@ class Vehicle(Agent):
             elif carNext and parkingNext:
                 self.model.grid.move_agent(self, new_position)
                 self.path.get()
+            elif crosswalk:
+                ...
         else:
             self.show = False
 

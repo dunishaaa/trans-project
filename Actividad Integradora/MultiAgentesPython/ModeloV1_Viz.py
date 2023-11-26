@@ -104,7 +104,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Color": "orange",
+            "Color": "pink",
             "Layer": 1,
             "w": 1,
             "h": 1,
