@@ -104,7 +104,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Color": "orange",
+            "Color": "pink",
             "Layer": 1,
             "w": 1,
             "h": 1,
@@ -124,7 +124,7 @@ def agent_portrayal(agent):
 
 
 var = 34
-num_cars = 100
+num_cars = 1
 num_buses = 1
 grid = CanvasGrid(agent_portrayal, 37, 37)
 
