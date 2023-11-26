@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 public class Model: MonoBehaviour
 {
+    public float factor = 10f;
     public List<GameObject> carsList;
     public List<GameObject> metrobusList;
     public List<GameObject> pedestriansList;
@@ -29,18 +30,36 @@ public class Model: MonoBehaviour
         pedestrians = new Dictionary<(int, int), GameObject>();
 
         InitializeModel();
-
-
     }
 
     private void Update()
-    {
+    { 
+        foreach (var kvp in cars)
+        {
+            (int, int) key = kvp.Key;
+            GameObject val = kvp.Value;
+            Transform transform = val.GetComponent<Transform>();
+            Car car = transform.GetComponent<Car>();
+            if(Vector3.Distance(car.targetPosition, transform.position) < 1)
+            {
+                StartCoroutine(GetData((modelData) =>
+                {
+                    UpdateAgents(modelData);
 
+                }));
+
+            }
+            break;
+        }
+
+        
         // si la distancia es menor a algo, pedir el siguiente paso
     }
 
     private (float, float) TransformCoordinates((float, float ) position)
     {
+        position.Item1 *= factor;
+        position.Item2 *= factor;
         return position;
 
     }
@@ -97,7 +116,7 @@ public class Model: MonoBehaviour
         StartCoroutine(GetDataInit((modelData) =>
         {
             //Debug.Log(modelData.ToString());
-            ///Debug.Log(modelData.cars);
+            Debug.Log(modelData.cars);
             CreateAgents(modelData);
 
         }));
@@ -113,13 +132,13 @@ public class Model: MonoBehaviour
             UpdateAgent(0, agentData);
         }
         //Metrobus
-        foreach(AgentData agentData in data.cars)
+        foreach(AgentData agentData in data.metrobuses)
         {
             UpdateAgent(1, agentData);
         }
 
         //Pedestrian
-        foreach(AgentData agentData in data.cars)
+        foreach(AgentData agentData in data.pedestrians)
         {
             UpdateAgent(2, agentData);
         }

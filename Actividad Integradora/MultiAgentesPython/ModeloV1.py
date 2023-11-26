@@ -212,7 +212,9 @@ class MapModel(Model):
                 for value in cell_content:
                     dic = {}
                     if type(value) is Car:
-                        dic["id"] = value.unique_id
+                        idx = value.unique_id[1]
+                        idy = value.unique_id[2]
+                        dic["id"] = (idx, idy)
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)
@@ -251,7 +253,9 @@ class MapModel(Model):
             dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
             while ini == dest:
                 dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
-            carAg = Car(i, self, ini, dest)
+            x,y = ini
+
+            carAg = Car((0, x, y), self, ini, dest)
             carAg.pos = ini
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
@@ -261,7 +265,8 @@ class MapModel(Model):
         pini = (1,23)
 
         for i in range(self.number_buses):
-            busAg = Bus(100000, self)
+            x,y = pini
+            busAg = Bus((2, x, y), self)
             busAg.pos = pini
             self.grid.place_agent(busAg, pini)
             self.schedule.add(busAg)

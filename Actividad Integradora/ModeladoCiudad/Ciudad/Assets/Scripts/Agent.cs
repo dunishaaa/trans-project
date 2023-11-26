@@ -4,11 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Android;
 
-public abstract class Agent : MonoBehaviour
+public class Agent : MonoBehaviour
 {
 
-    public float speed;
-    public float rotationSpeed;
+    protected float speed = 20f;
+    protected float rotationSpeed = 100f;
     public Vector3 targetPosition;
     public Transform m_Transform;
 
@@ -17,6 +17,7 @@ public abstract class Agent : MonoBehaviour
     private void Start()
     {
         m_Transform = GetComponent<Transform>();
+        targetPosition = m_Transform.position;
     }
 
     private void Update()
