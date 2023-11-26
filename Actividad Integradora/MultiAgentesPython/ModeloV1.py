@@ -22,6 +22,7 @@ class MapModel(Model):
         self.schedule = StagedActivation(self)
         self.running = True
         self.steps = 0
+        self.current_id = 0
         size = 1
         self.parking_lots = [(7, 7), (5, 13), (7, 16), (6, 24), (14, 25), (7, 30), (12, 31), (14, 5), (
             16, 9), (15, 16), (13, 14), (25, 5), (30, 8), (30, 13), (28, 16), (25, 25), (31, 30)]
@@ -212,9 +213,7 @@ class MapModel(Model):
                 for value in cell_content:
                     dic = {}
                     if type(value) is Car:
-                        idx = value.unique_id[1]
-                        idy = value.unique_id[2]
-                        dic["id"] = (idx, idy)
+                        dic["id"] = (x, y)
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)
@@ -255,7 +254,8 @@ class MapModel(Model):
                 dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
             x,y = ini
 
-            carAg = Car((0, x, y), self, ini, dest)
+            carAg = Car(self.current_id, self, ini, dest)
+            self.current_id += 1
             carAg.pos = ini
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
@@ -266,7 +266,8 @@ class MapModel(Model):
 
         for i in range(self.number_buses):
             x,y = pini
-            busAg = Bus((2, x, y), self)
+            busAg = Bus(self.current_id, self)
+            self.current_id += 1
             busAg.pos = pini
             self.grid.place_agent(busAg, pini)
             self.schedule.add(busAg)
