@@ -11,46 +11,50 @@ public class Model: MonoBehaviour
     public List<GameObject> metrobusList;
     public List<GameObject> pedestriansList;
 
-    public float gridWidth;
-    public float gridHeight;
+    public int number_cars = 1;
+    public float err_tolerance = 1f;
+    public float floor_y = -14.1f;
 
-    public float modelWidth;
-    public float modelHeight;
 
     public List<GameObject> agents;
-    public Dictionary<(int, int), GameObject> cars;
-    public Dictionary<(int, int), GameObject> metrobuses;
-    public Dictionary<(int, int), GameObject> pedestrians;
+    public Dictionary<int, GameObject> cars;
+    public Dictionary<int, GameObject> metrobuses;
+    public Dictionary<int, GameObject> pedestrians;
 
 
     private void Start()
     {
-        cars = new Dictionary<(int, int), GameObject>();
-        metrobuses = new Dictionary<(int, int), GameObject>();
-        pedestrians = new Dictionary<(int, int), GameObject>();
-
+        cars = new Dictionary<int, GameObject>();
+        metrobuses = new Dictionary<int, GameObject>();
+        pedestrians = new Dictionary<int, GameObject>();
         InitializeModel();
+
     }
 
     private void Update()
-    { 
+    {
+        float totalDistance = 0f;
         foreach (var kvp in cars)
         {
-            (int, int) key = kvp.Key;
+            int key = kvp.Key;
             GameObject val = kvp.Value;
             Transform transform = val.GetComponent<Transform>();
             Car car = transform.GetComponent<Car>();
-            if(Vector3.Distance(car.targetPosition, transform.position) < 1)
-            {
-                StartCoroutine(GetData((modelData) =>
-                {
-                    UpdateAgents(modelData);
+            totalDistance += Vector3.Distance(car.targetPosition, transform.position);
 
-                }));
-
-            }
-            break;
         }
+
+        totalDistance /= (float)cars.Count;
+
+        if(totalDistance < err_tolerance)
+        {
+            StartCoroutine(GetData((modelData) =>
+            {
+                UpdateAgents(modelData);
+            }));
+        }
+
+
 
         
         // si la distancia es menor a algo, pedir el siguiente paso
@@ -66,8 +70,7 @@ public class Model: MonoBehaviour
 
     private IEnumerator GetDataInit(Action<ModelData> callback)
     {
-        string url = "http://127.0.0.1:5000/init";
-
+        string url = "http://127.0.0.1:5000/init/" + number_cars;
         using (UnityWebRequest getRequest = UnityWebRequest.Get(url))
         {
             yield return getRequest.SendWebRequest();
@@ -115,12 +118,10 @@ public class Model: MonoBehaviour
     {
         StartCoroutine(GetDataInit((modelData) =>
         {
-            //Debug.Log(modelData.ToString());
-            Debug.Log(modelData.cars);
             CreateAgents(modelData);
+            Debug.Log("number of cars: " + cars.Count);
 
         }));
-        /// for i in getdata() createAgent();
 
     }
 
@@ -151,13 +152,13 @@ public class Model: MonoBehaviour
             CreateAgent(0, agentData);
         }
         //Metrobus
-        foreach(AgentData agentData in data.cars)
+        foreach(AgentData agentData in data.metrobuses)
         {
             CreateAgent(1, agentData);
         }
 
         //Pedestrian
-        foreach(AgentData agentData in data.cars)
+        foreach(AgentData agentData in data.pedestrians)
         {
             CreateAgent(2, agentData);
         }
@@ -168,31 +169,32 @@ public class Model: MonoBehaviour
     private void CreateAgent(int agentType, AgentData agent)
     {
         // 0 car || 1 metrobus || 2 pedestrian
-        float y;
         int randomIndex;
         (float, float) position = TransformCoordinates((agent.x, agent.y)); 
+
         
-        y = 50f;
-        Vector3 spawnPosition = new Vector3(position.Item1, y, position.Item2);
+        Debug.Log("Agent id on creation: " + agent.id);
+        Vector3 spawnPosition = new Vector3(position.Item1, floor_y, position.Item2);
+        Quaternion looking_to = Quaternion.Euler(0f, 0f, 0f);
         switch (agentType)
         {
 
             case 0:
                 randomIndex = UnityEngine.Random.Range(0, carsList.Count);
                 GameObject newCar = carsList[randomIndex];
-                newCar = Instantiate(newCar, spawnPosition, Quaternion.identity); 
+                newCar = Instantiate(newCar, spawnPosition, looking_to); 
                 cars[agent.id] = newCar;
                 break;
             case 1:
                 randomIndex = UnityEngine.Random.Range(0, metrobuses.Count);
                 GameObject newMetrobus= carsList[randomIndex];
-                newMetrobus = Instantiate(newMetrobus, spawnPosition, Quaternion.identity);
+                newMetrobus = Instantiate(newMetrobus, spawnPosition, looking_to);
                 metrobuses[agent.id] = newMetrobus;
                 break;
             case 2:
                 randomIndex = UnityEngine.Random.Range(0, pedestrians.Count);
                 GameObject newPedestrian = carsList[randomIndex];
-                newPedestrian = Instantiate(newPedestrian, spawnPosition, Quaternion.identity);
+                newPedestrian = Instantiate(newPedestrian, spawnPosition, looking_to);
                 pedestrians[agent.id] = newPedestrian;
                 break;
             default:
@@ -204,9 +206,11 @@ public class Model: MonoBehaviour
     private void UpdateAgent(int agentType, AgentData agent)
     {
         GameObject currentAgent;
-        (float, float) position = TransformCoordinates((agent.x, agent.y)); 
+        (float, float) position = TransformCoordinates((agent.x, agent.y));
 
-        Vector3 nextDirection = new Vector3(position.Item1, 50f, position.Item2);
+
+        Debug.Log("Updating car with id: " + agent.id);
+        Vector3 nextDirection = new Vector3(position.Item1, floor_y, position.Item2);
         switch (agentType)
         {
             case 0:

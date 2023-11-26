@@ -166,11 +166,12 @@ class MapModel(Model):
                      (12, 14), (25, 4), (29, 8), (30, 12), (28, 17), (26, 25), (32, 30)]
 
         self.create_pkl(self.spls)
-        self.create_cars_in_lots()
         self.create_crosswalk(self.crosswalk_list)
         self.ubication((0, 0), (36, 36))
 
         self.create_buses(self.lst_buses)
+        self.create_buses()
+        self.create_cars_in_lots()
 
         #     self.grid.place_agent(calle, i)
 
@@ -194,8 +195,8 @@ class MapModel(Model):
                 for value in cell_content:
                     dic = {}
                     if type(value) is Car:
-                        dic["id"] = (x, y)
                         dic["pos"] = value.direccion
+                        dic["id"] = value.unique_id
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)
@@ -229,8 +230,8 @@ class MapModel(Model):
             self.grid.place_agent(crosswalk, (i))
 
     def create_cars_in_lots(self):
-        pini = (6, 6)
-        pdest = (23, 22)
+        pini = (2, 2)
+        pdest = (31, 30)
         for i in range(self.number_cars):
             ini = self.parking_lots[randint(0, len(self.parking_lots)-1)]
             dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
@@ -239,6 +240,7 @@ class MapModel(Model):
             x, y = ini
 
             carAg = Car(self.current_id, self, ini, dest)
+            #print(f"{ini=} -> {dest=}")
             self.current_id += 1
             carAg.pos = ini
             # carAg.direccion = self.get_direction(ini)

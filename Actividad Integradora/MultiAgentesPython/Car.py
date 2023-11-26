@@ -1,12 +1,14 @@
 from Vehicle import Vehicle
 from Parking import Parking
 from Street import Street
+from Crosswalk import Crosswalk
 
 class Car(Vehicle):
     def __init__(self, unique_id, model, position, destiny):
         super().__init__(unique_id, model, position, destiny)
         self.pos = position
         self.direccion = self.get_initial_position(position)
+
 
     def prune_neighbors(self, possible_steps):
         width = self.model.grid.width
@@ -19,8 +21,9 @@ class Car(Vehicle):
             cell = self.model.grid.get_cell_list_contents(position)
             for value in cell:
                 #print(f"{position=} - {type(value)=}")
-                if type(value) is Street or type(value) is Parking:
+                if type(value) is Street or type(value) is Parking or type(value) is Crosswalk:
                     street_steps.append((position))
+                    break
 
         return tuple(street_steps)
 

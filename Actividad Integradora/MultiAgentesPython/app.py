@@ -17,8 +17,17 @@ model = None
 def init():
     global model
     model = None
-    model =  MapModel(37, 37, 5, 1)
+    model =  MapModel(37, 37, 1, 1)
     data = model.ubication((0,0), (36, 36))
+
+    return jsonify(data)
+
+@app.get("/init/<int:cars>")
+def init_cars(cars=1):
+    global model
+    model = None
+    model = MapModel(37,37,cars, 1)
+    data = model.ubication((0,0),(36,36))
 
     return jsonify(data)
 
