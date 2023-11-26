@@ -5,15 +5,29 @@ from TrafficLight import TrafficLight
 from Crosswalk import Crosswalk
 
 class Bus(Agent):
-    def __init__(self, unique_id, model):
+    def __init__(self, unique_id, model,position):
         super().__init__(unique_id, model)
         self.pos = None
         self.wait = 0
         self.wait4passengers = 0
+        self.direccion = self.get_initial_position(position)
         
     def wait4passengers(self):
         ...
-        
+    
+    def get_initial_position(self, position):
+        x, y = position
+        possible_steps = []
+        possible_steps.append((x, y+1))    
+        possible_steps.append((x, y-1))
+        possible_steps.append((x+1, y))    
+        possible_steps.append((x-1, y))
+        for step in possible_steps:
+            cell = self.model.grid.get_cell_list_contents(step)
+            for value in cell:
+                if type(value) is StreetBus:
+                    return value.direccion
+                
     def check_traffic_ligh(self, cell):
         trafficLight = None
         car = None

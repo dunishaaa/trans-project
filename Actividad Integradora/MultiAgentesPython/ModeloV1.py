@@ -174,25 +174,7 @@ class MapModel(Model):
 
         #     self.grid.place_agent(calle, i)
 
-    def get_direction(self, cell):
-        x, y = cell
-        left = (x-1, y)
-        right = (x+1, y)
-        up = (x, y-1)
-        down = (x, y+1)
-        cell_content_left = self.grid.get_cell_list_contents(left)
-        cell_content_right = self.grid.get_cell_list_contents(right)
-        cell_content_up = self.grid.get_cell_list_contents(up)
-        cell_content_down = self.grid.get_cell_list_contents(down)
 
-        if Street in cell_content_left:
-            return 3
-        elif Street in cell_content_right:
-            return 2
-        elif Street in cell_content_up:
-            return 0
-        elif Street in cell_content_down:
-            return 1
 
     def ubication(self, cell, last_cell):
         dict = {}
@@ -217,6 +199,12 @@ class MapModel(Model):
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)
+                    elif type(value) is Bus:
+                        dic["id"] = (x, y)
+                        dic["pos"] = value.direccion
+                        dic["x"] = x
+                        dic["y"] = y
+                        dict["metrobuses"].append(dic)
 
                 cell = (x, y + 1)
             else:
@@ -262,7 +250,7 @@ class MapModel(Model):
     def create_buses(self, lst_buses):
         for i in lst_buses:
             x, y = i
-            busAg = Bus(self.current_id, self)
+            busAg = Bus(self.current_id, self, i)
             self.current_id += 1
             busAg.pos = i
             self.grid.place_agent(busAg, i)
