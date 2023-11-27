@@ -196,14 +196,12 @@ class MapModel(Model):
                     dic = {}
                     if type(value) is Car:
                         dic["direction"] = value.direccion
-                        dic["pos"] = value.direccion
                         dic["id"] = value.unique_id
                         dic["x"] = x
                         dic["y"] = y
                         dict["cars"].append(dic)
                     elif type(value) is Bus:
                         dic["direction"] = value.direccion
-                        dic["pos"] = value.direccion
                         dic["id"] =  value.unique_id
                         dic["x"] = x
                         dic["y"] = y

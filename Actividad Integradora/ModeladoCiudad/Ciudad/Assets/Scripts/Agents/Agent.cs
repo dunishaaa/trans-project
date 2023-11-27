@@ -7,8 +7,8 @@ using UnityEngine.Android;
 public class Agent : MonoBehaviour
 {
 
-    protected float speed = 20f;
-    protected float rotationSpeed = 100f;
+    public float speed = 20f;
+    public float rotationSpeed = 100f;
     public Vector3 targetPosition;
     public Transform m_Transform;
 

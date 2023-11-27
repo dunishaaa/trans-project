@@ -10,10 +10,13 @@ public class Model: MonoBehaviour
     public List<GameObject> carsList;
     public List<GameObject> metrobusList;
     public List<GameObject> pedestriansList;
+    public float speed, rotationSpeed;
+    public float xd, yd, zd;
+    public int currentStep = 0;
 
-    public int number_cars = 1;
-    public float err_tolerance = 1f;
-    public float floor_y = -14.1f;
+    public int numberCars = 1;
+    public float errTolerance = 1f;
+    public float floorY = -14.1f;
 
 
     public List<GameObject> agents;
@@ -31,6 +34,7 @@ public class Model: MonoBehaviour
 
     }
 
+
     private void Update()
     {
         float totalDistance = 0f;
@@ -39,26 +43,24 @@ public class Model: MonoBehaviour
             int key = kvp.Key;
             GameObject val = kvp.Value;
             Transform transform = val.GetComponent<Transform>();
-            Car car = transform.GetComponent<Car>();
+            Car car = val.GetComponent<Car>();
             totalDistance += Vector3.Distance(car.targetPosition, transform.position);
 
         }
 
         totalDistance /= (float)cars.Count;
 
-        if(totalDistance < err_tolerance)
+        if(totalDistance < errTolerance)
         {
             StartCoroutine(GetData((modelData) =>
             {
                 UpdateAgents(modelData);
+                currentStep++;
             }));
         }
 
-
-
-        
-        // si la distancia es menor a algo, pedir el siguiente paso
     }
+
 
     private (float, float) TransformCoordinates((float, float ) position)
     {
@@ -70,7 +72,7 @@ public class Model: MonoBehaviour
 
     private IEnumerator GetDataInit(Action<ModelData> callback)
     {
-        string url = "http://127.0.0.1:5000/init/" + number_cars;
+        string url = "http://127.0.0.1:5000/init/" + numberCars;
         using (UnityWebRequest getRequest = UnityWebRequest.Get(url))
         {
             yield return getRequest.SendWebRequest();
@@ -93,7 +95,7 @@ public class Model: MonoBehaviour
     private IEnumerator GetData(Action<ModelData> callback)
     {
 
-        string url = "http://127.0.0.1:5000/data";
+        string url = "http://127.0.0.1:5000/data/" + currentStep;
 
         using (UnityWebRequest getRequest = UnityWebRequest.Get(url))
         {
@@ -146,6 +148,7 @@ public class Model: MonoBehaviour
     }
     private void CreateAgents(ModelData data)
     {
+        currentStep++;
         //Cars
         foreach(AgentData agentData in data.cars)
         {
@@ -174,8 +177,16 @@ public class Model: MonoBehaviour
 
         
         Debug.Log("Agent id on creation: " + agent.id);
-        Vector3 spawnPosition = new Vector3(position.Item1, floor_y, position.Item2);
-        Quaternion looking_to = Quaternion.Euler(0f, 0f, 0f);
+        Vector3 spawnPosition = new Vector3(position.Item1, floorY, position.Item2);
+        //Vector3 spawnPosition = new Vector3(0f, 0f, 0f);
+        Vector3 desiredDirection = new Vector3(xd, yd, zd);
+        // 2 der || 3 izq || 0 arriba || 1 abaj
+        if (agent.direction == 2) desiredDirection = new Vector3(1, 0, 0);
+        else if (agent.direction == 3) desiredDirection = new Vector3(-1, 0, 0);
+        else if (agent.direction == 1) desiredDirection = new Vector3(0, 0, -1);
+        Quaternion looking_to = Quaternion.LookRotation(desiredDirection);
+
+
         switch (agentType)
         {
 
@@ -186,14 +197,14 @@ public class Model: MonoBehaviour
                 cars[agent.id] = newCar;
                 break;
             case 1:
-                randomIndex = UnityEngine.Random.Range(0, metrobuses.Count);
-                GameObject newMetrobus= carsList[randomIndex];
-                newMetrobus = Instantiate(newMetrobus, spawnPosition, looking_to);
-                metrobuses[agent.id] = newMetrobus;
+                //randomIndex = UnityEngine.Random.Range(0, metrobusList.Count);
+                //GameObject newMetrobus= metrobusList[randomIndex];
+                //newMetrobus = Instantiate(newMetrobus, spawnPosition, looking_to);
+                //metrobuses[agent.id] = newMetrobus;
                 break;
             case 2:
-                randomIndex = UnityEngine.Random.Range(0, pedestrians.Count);
-                GameObject newPedestrian = carsList[randomIndex];
+                randomIndex = UnityEngine.Random.Range(0, pedestriansList.Count);
+                GameObject newPedestrian = pedestriansList[randomIndex];
                 newPedestrian = Instantiate(newPedestrian, spawnPosition, looking_to);
                 pedestrians[agent.id] = newPedestrian;
                 break;
@@ -210,22 +221,28 @@ public class Model: MonoBehaviour
 
 
         Debug.Log("Updating car with id: " + agent.id);
-        Vector3 nextDirection = new Vector3(position.Item1, floor_y, position.Item2);
+        Vector3 nextDirection = new Vector3(position.Item1, floorY, position.Item2);
         switch (agentType)
         {
             case 0:
                 currentAgent = cars[agent.id];
                 Car car = currentAgent.GetComponent<Car>();
+                car.speed = speed;
+                car.rotationSpeed = rotationSpeed;
                 car.targetPosition = nextDirection;
                 break;
             case 1:
-                currentAgent = metrobuses[agent.id];
-                Metrobus metrobus = currentAgent.GetComponent<Metrobus>();
-                metrobus.targetPosition = nextDirection;
+               // currentAgent = metrobuses[agent.id];
+                //Metrobus metrobus = currentAgent.GetComponent<Metrobus>();
+                //metrobus.speed = speed;
+                //metrobus.rotationSpeed = rotationSpeed;
+                //metrobus.targetPosition = nextDirection;
                 break;
             case 2:
                 currentAgent = pedestrians[agent.id];
                 Pedestrian pedestrian = currentAgent.GetComponent<Pedestrian>();
+                pedestrian.speed = speed;
+                pedestrian.rotationSpeed = rotationSpeed;
                 pedestrian.targetPosition = nextDirection;
                 break;
             default:

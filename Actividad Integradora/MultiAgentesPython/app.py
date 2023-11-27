@@ -13,30 +13,43 @@ class AgentData():
     
 
 model = None
-@app.get("/init")
-def init():
-    global model
-    model = None
-    model =  MapModel(37, 37, 1, 1)
-    data = model.ubication((0,0), (36, 36))
-
-    return jsonify(data)
+data_hist = []
+g_step = 0
 
 @app.get("/init/<int:cars>")
 def init_cars(cars=1):
     global model
+    global data_hist 
+    global g_step 
+    data = []
     model = None
+    g_step = 1
     model = MapModel(37,37,cars, 1)
     data = model.ubication((0,0),(36,36))
+#    data_hist.append(data)
 
     return jsonify(data)
 
-@app.get("/data")
-def get_data():
+@app.get("/data/<int:step>")
+def get_data(step):
     global model
+    global data_hist
+    global g_step 
+
     model.step()
     data = model.ubication((0,0), (36, 36))
     return jsonify(data)
+
+    if step == g_step:
+        data_hist.pop()
+        model.step()
+        g_step+=1
+        data = model.ubication((0,0), (36, 36))
+        data_hist.append(data)
+        return jsonify(data)
+    else:
+        return jsonify(data_hist[-1])
+
 
 
 @app.route("/initialize")

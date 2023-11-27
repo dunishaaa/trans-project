@@ -82139,7 +82139,13 @@ MonoBehaviour:
   - {fileID: 1731962478607405926, guid: 1ae167db4df75a441a13e5c33d4fde57, type: 3}
   metrobusList: []
   pedestriansList: []
-  number_cars: 4
-  err_tolerance: 2
-  floor_y: 2
+  speed: 40
+  rotationSpeed: 4
+  xd: 0
+  yd: 0
+  zd: 0
+  currentStep: 0
+  numberCars: 20
+  errTolerance: 10
+  floorY: 2
   agents: []
