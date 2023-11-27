@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a7cee00bf89e6d544a7cbc8a86fd9e93
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 226458
+  packageName: Favoured Cars Pack - Low Poly (FREE)
+  packageVersion: 2.1
+  assetPath: Assets/Favoured Cars Pack - Low Poly (FREE)/Shaders/RealCarPaint.shader
+  uploadId: 531522

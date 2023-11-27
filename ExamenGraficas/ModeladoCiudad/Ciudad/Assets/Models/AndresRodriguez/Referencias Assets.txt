@@ -1,5 +1,0 @@
-Assets:
-https://assetstore.unity.com/packages/3d/vehicles/land/uaa-city-props-vehicles-120339 | UAA - City Props - Vehicles
-https://assetstore.unity.com/packages/3d/props/traffic-control-pack1-4919 | Traffic Control Pack1
-https://assetstore.unity.com/packages/3d/environments/urban/modular-lowpoly-streets-free-192094 | Modular Lowpoly Streets (Free)
-https://sketchfab.com/3d-models/rectangular-sign-b13e53c4fbea44158cb83e029d942488 | RECTANGULAR SIGN | License: CC Attribution
