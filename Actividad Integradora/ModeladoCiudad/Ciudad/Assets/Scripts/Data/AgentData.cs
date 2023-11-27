@@ -7,7 +7,7 @@ using System;
 [Serializable]
 public class AgentData 
 {
-    public (int, int) id;
+    public int id;
     public int direction;
     public float x;
     public float y;
