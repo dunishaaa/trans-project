@@ -11,40 +11,46 @@ from Sidewalk import Sidewalk
 from Crosswalk import Crosswalk
 from StreetBus import StreetBus
 from BusStop import BusStop
+from Bus import Bus
 
 
 class MapModel(Model):
-    def __init__(self, width, height, number_cars):
+    def __init__(self, width, height, number_cars, number_buses):
         self.grid = MultiGrid(width, height, True)
         self.number_cars = number_cars
+        self.number_buses = number_buses
         self.schedule = StagedActivation(self)
         self.running = True
         self.steps = 0
+        self.current_id = 0
         size = 1
         self.parking_lots = [(7, 7), (5, 13), (7, 16), (6, 24), (14, 25), (7, 30), (12, 31), (14, 5), (
             16, 9), (15, 16), (13, 14), (25, 5), (30, 8), (30, 13), (28, 16), (25, 25), (31, 30)]
 
-        self.lol1 = [[(4*size, 9*size), (4*size, 10*size)], [(4*size, 22*size), (4*size, 21*size)], [(25*size, 3*size), (25*size, 2*size)],
+        self.lol1 = [[(4*size, 9*size), (4*size, 10*size)], [(4*size, 22*size), (4*size, 21*size)], [(25*size, 3*size), (25*size, 2*size), (25, 1)],
                      [(32*size, 10*size), (32*size, 11*size)
                       ], [(17*size, 27*size), (17*size, 28*size)],
                      [(26*size, 27*size), (26*size, 28*size)
-                      ], [(23*size, 33*size), (23*size, 34*size)],
-                     [(4*size, 33*size), (4*size, 34*size)], [(12*size, 3*size), (12*size, 2*size)]]
+                      ], [(23*size, 33*size), (23*size, 34*size), (23, 35)],
+                     [(4*size, 33*size), (4*size, 34*size), (4, 35)], [(12*size, 3*size), (12*size, 2*size), (12, 1)]]
 
-        self.lol2 = [[(2*size, 11*size), (3*size, 11*size)], [(2*size, 23*size), (3*size, 23*size)],
+        self.lol2 = [[(1, 11), (2*size, 11*size), (3*size, 11*size)], [(1, 23), (2*size, 23*size), (3*size, 23*size)],
                      [(18*size, 29*size), (19*size, 29*size)
                       ], [(27*size, 29*size), (28*size, 29*size)],
                      [(27*size, 4*size), (28*size, 4*size)
-                      ], [(33*size, 9*size), (34*size, 9*size)],
-                     [(33*size, 23*size), (34*size, 23*size)]]
+                      ], [(33*size, 9*size), (34*size, 9*size), (35, 9)],
+                     [(33*size, 23*size), (34*size, 23*size), (35, 23)]]
 
         self.crosswalk_list = [(1, 23), (2, 23), (3, 23), (1, 11), (2, 11), (3, 11), (4, 35), (4, 34), (
-                                4, 33), (4, 28), (4, 27), (4, 22), (4, 21), (4, 19), (4, 18), (4, 10), (4, 9), (4, 3), (4, 2), (
-                                4, 1),(10,17),(11,17),(10,8),(11,8),(12,1),(12,2),(12,3),(17,35),(17,34),(17,33),(17,28),(
-                                17,27),(17,22),(17,21),(17,19),(17,18),(17,3),(17,2),(17,1),(18,29),(19,29),(21,29),(22 ,29),(18,17),(
-                                19,17),(21,17),(22,17),(18,4),(19,4),(21,4),(22,4),(23,35),(23,34),(23,33),(26,28),(26,27),(26,3),(26,2),(
-                                26,1),(27,29),(28,29),(27,23),(28,23),(27,4),(28,4),(32,28),(32,27),(32,22),(32,21),(32,19),(32,18),(32,11),(
-                                32,10),(33,9),(34,9),(35,9),(33,23),(34,23),(35,23)]
+            4, 33), (4, 28), (4, 27), (4, 22), (4, 21), (4, 19), (4, 18), (4, 10), (4, 9), (4, 3), (4, 2), (
+            4, 1), (10, 17), (11, 17), (10, 8), (11, 8), (12, 1), (12, 2), (12, 3), (17, 35), (17, 34), (17, 33), (17, 28), (
+            17, 27), (17, 22), (17, 21), (17, 19), (17, 18), (17, 3), (17, 2), (17, 1), (18, 29), (19, 29), (21, 29), (22, 29), (18, 17), (
+            19, 17), (21, 17), (22, 17), (18, 4), (19, 4), (21, 4), (22, 4), (23, 35), (23, 34), (23, 33), (26, 28), (26, 27), (26, 3), (26, 2), (
+            26, 1), (27, 29), (28, 29), (27, 23), (28, 23), (27, 4), (28, 4), (32, 28), (32, 27), (32, 22), (32, 21), (32, 19), (32, 18), (32, 11), (
+            32, 10), (33, 9), (34, 9), (35, 9), (33, 23), (34, 23), (35, 23)]
+
+        self.lst_buses = [(1, 23), (1, 11), (12, 1), (25, 1),
+                          (35, 9), (35, 23), (23, 35), (4, 35)]
         # 1
         self.create_building(
             (5*size, 5*size), (8*size, 7*size), [(7*size, 7*size)])
@@ -107,7 +113,6 @@ class MapModel(Model):
 
         # # Cruces peatonales
         self.create_crosswalk(self.crosswalk_list)
-
     # Calle
         # Bordes
         #   cafe          gris        rojo            magenta
@@ -146,25 +151,68 @@ class MapModel(Model):
         self.create_street((18, 18), (22, 18), 2)
         self.create_street((18, 19), (18, 21), 1)
         self.create_street((22, 19), (22, 21), 0)
-        
-    # #     #MetroBus
-        self.create_streetbus((1,1),(1,35),1)
-        self.create_streetbus((1,1),(35,1),2)
-        self.create_streetbus((35,1),(35,35),0)
-        self.create_streetbus((1,35),(35,35),3)
-        self.bustops = [(0,23),(0,11),(12,0),(25,0),(36,9),(36,23),(23,36),(4,36)]
-        self.create_busstop(self.bustops)
-        
-        
-        self.spls = [(7, 8), (4, 13), (7, 17), (6, 23), (14, 26), (7, 29), (12, 32), (14, 4), (17, 9), (15, 17),
-                     (12, 14), (26, 5), (25, 4), (29, 8), (30, 9), (30, 12), (28, 17), (25, 26), (26, 25), (32, 30)]
 
-        
+    # #     #MetroBus
+        self.create_streetbus((1, 1), (1, 35), 1)
+        self.create_streetbus((1, 1), (35, 1), 2)
+        self.create_streetbus((35, 1), (35, 35), 0)
+        self.create_streetbus((1, 35), (35, 35), 3)
+        self.bustops = [(0, 24), (1, 24), (0, 12), (1, 12), (11, 0), (11, 1),
+                        (24, 0), (24, 1), (36, 8), (35, 8), (36, 22), (35, 22), (24, 36),
+                        (24, 35), (5, 36), (5, 35)]
+        self.create_busstop(self.bustops)
+
+        self.spls = [(7, 8), (4, 13), (7, 17), (6, 23), (14, 26), (7, 29), (12, 32), (14, 4), (17, 9), (15, 17),
+                     (12, 14), (25, 4), (29, 8), (30, 12), (28, 17), (26, 25), (32, 30)]
+
         self.create_pkl(self.spls)
+        self.create_crosswalk(self.crosswalk_list)
+        self.ubication((0, 0), (36, 36))
+
+        self.create_buses(self.lst_buses)
+#        self.create_buses()
         self.create_cars_in_lots()
 
         #     self.grid.place_agent(calle, i)
-        
+
+
+
+    def ubication(self, cell, last_cell):
+        dict = {}
+        dict["gridSize"] = (36, 36)
+        dict["cars"] = []
+        dict["metrobuses"] = []
+        dict["pedestrians"] = []
+        actual_cell = (0, 0)
+        initial_x, initial_y = actual_cell
+
+        while actual_cell != last_cell:
+            actual_cell = cell
+            x, y = cell
+            last_x, last_y = last_cell
+            if (y <= last_y and x <= last_x):
+                cell_content = self.grid.get_cell_list_contents((x, y))
+                for value in cell_content:
+                    dic = {}
+                    if type(value) is Car:
+                        dic["direction"] = value.direccion
+                        dic["id"] = value.unique_id
+                        dic["x"] = x
+                        dic["y"] = y
+                        dict["cars"].append(dic)
+                    elif type(value) is Bus:
+                        dic["direction"] = value.direccion
+                        dic["id"] =  value.unique_id
+                        dic["x"] = x
+                        dic["y"] = y
+                        dict["metrobuses"].append(dic)
+
+                cell = (x, y + 1)
+            else:
+                cell = (x + 1, initial_y)
+        #print(dict)
+        return dict
+
     def create_busstop(self, spls):
         for i in spls:
             busstop = BusStop(i, self)
@@ -182,18 +230,35 @@ class MapModel(Model):
             self.grid.place_agent(crosswalk, (i))
 
     def create_cars_in_lots(self):
-        pini = (6, 6)
-        pdest = (23, 22)
+        pini = (2, 2)
+        pdest = (31, 30)
         for i in range(self.number_cars):
             ini = self.parking_lots[randint(0, len(self.parking_lots)-1)]
             dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
             while ini == dest:
                 dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
-            carAg = Car(i, self, ini, dest)
+            x, y = ini
+
+            carAg = Car(self.current_id, self, ini, dest)
+            #print(f"{ini=} -> {dest=}")
+            self.current_id += 1
+            carAg.pos = ini
+            # carAg.direccion = self.get_direction(ini)
+            #print(f" direccion inicial {carAg.direccion}")
             self.grid.place_agent(carAg, ini)
             self.schedule.add(carAg)
             carAg.get_path()
-    
+
+    def create_buses(self, lst_buses):
+        for i in lst_buses:
+            x, y = i
+            busAg = Bus(self.current_id, self, i)
+            self.current_id += 1
+            busAg.pos = i
+            self.grid.place_agent(busAg, i)
+            self.schedule.add(busAg)
+            # self.schedule.add(busAg)
+
     def create_streetbus(self, cell, last_cell, direccion):
         actual_cell = (0, 0)
         initial_x, initial_y = cell
@@ -236,7 +301,7 @@ class MapModel(Model):
             actual_cell = cell
             x, y = cell
             last_x, last_y = last_cell
-
+            # cell_content = self.grid.get_cell_list_contents((x, y))
             if (y <= last_y and x <= last_x):
                 sidewalk = Sidewalk((actual_cell), self)
                 self.grid.place_agent(sidewalk, (actual_cell))
@@ -313,4 +378,11 @@ class MapModel(Model):
             self.manage_traffic(self.lol2, self.steps, 2)
             self.steps = 0
         # print(self.parking_lots)
+        self.ubication((0, 0), (36, 36))
         self.schedule.step()
+
+
+if __name__ == "__main__":
+    model = MapModel(37, 37, 10, 1)
+    while model.running:
+        model.step()

@@ -43,7 +43,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Layer": 1,
+            "Layer": 2,
             "w": 1,
             "h": 1,
         }
@@ -87,7 +87,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "circle",
             "Filled": "true",
-            "Layer": 2,
+            "Layer": 1,
             "Color": "white",
             "r": 1
         }
@@ -104,10 +104,18 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Color": "orange",
+            "Color": "pink",
             "Layer": 1,
             "w": 1,
             "h": 1,
+        }
+    if type(agent) is Bus:
+        portrayal = {
+            "Shape": "circle",
+            "Filled": "true",
+            "Color": "orange",
+            "Layer": 5,
+            "r": 0.8
         }
 
         
@@ -116,7 +124,8 @@ def agent_portrayal(agent):
 
 
 var = 34
-num_cars = 1 
+num_cars = 66
+num_buses = 1
 grid = CanvasGrid(agent_portrayal, 37, 37)
 
 server = ModularServer(
@@ -126,7 +135,8 @@ server = ModularServer(
     {
         "width": 37,
         "height":  37,
-        "number_cars": num_cars
+        "number_cars": num_cars,
+        "number_buses": 1
     },
 )
 server.port = 8521  # The default
