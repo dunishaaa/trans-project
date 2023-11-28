@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 8890408387590142981}
   - component: {fileID: 4902849396875510843}
   m_Layer: 0
-  m_Name: Tram_Mesh
+  m_Name: metrobus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -155,6 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27469edbbe8e5044e92850932a0f50ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  rotationSpeed: 0
   targetPosition: {x: 0, y: 0, z: 0}
   m_Transform: {fileID: 0}
 --- !u!1 &989203723705576665
