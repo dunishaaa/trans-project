@@ -175,7 +175,7 @@ class MapModel(Model):
 
         self.create_pkl(self.spls)
         self.create_crosswalk(self.crosswalk_list)
-        self.ubication((0, 0), (36, 36))
+    
 
         self.create_buses(self.lst_buses)
         self.create_cars_in_lots()
@@ -196,6 +196,7 @@ class MapModel(Model):
                     self.grid.place_agent(cross, i)
                     
         self.create_p()
+        self.ubication((0, 0), (36, 36))
                     
 
 
@@ -239,12 +240,18 @@ class MapModel(Model):
                         dic["y"] = y
                         dic["color"] = value.color
                         dict["trafficlights"].append(dic)
+                    elif type(value) is Pedestrians:
+                        # dic["direction"] = value.direccion
+                        dic["id"] = value.unique_id
+                        dic["x"] = x
+                        dic["y"] = y
+                        dict["pedestrians"].append(dic)
                         
 
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-        #print(dict)
+        print(dict)
         return dict
 
     def create_busstop(self, spls):
