@@ -4,6 +4,7 @@ from queue import Queue
 from TrafficLight import TrafficLight
 from Crosswalk import Crosswalk
 from Sidewalk import Sidewalk
+import Car
 
 class Pedestrians(Agent):
     def __init__(self, unique_id, model, position, destiny) -> None:
@@ -27,7 +28,7 @@ class Pedestrians(Agent):
                 if type(value) is Sidewalk or type(value) is Crosswalk:
                     street_steps.append((position))
                     break
-                
+        return tuple(street_steps)
                 
     def get_neighbors(self, pos):
         curr_cel = self.model.grid.get_cell_list_contents(pos)
@@ -40,11 +41,11 @@ class Pedestrians(Agent):
         x,y = pos
         possible_steps = []       
         # 4 == any direction
-        if curr_street_dir == 4:
-            possible_steps.append((x, y+1))    
-            possible_steps.append((x, y-1))
-            possible_steps.append((x+1, y))    
-            possible_steps.append((x-1, y))
+        
+        possible_steps.append((x, y+1))    
+        possible_steps.append((x, y-1))
+        possible_steps.append((x+1, y))    
+        possible_steps.append((x-1, y))
     
         return self.prune_neighbors(possible_steps)
 
@@ -63,15 +64,19 @@ class Pedestrians(Agent):
 
     
     def move(self) -> None:
+    
         if not self.path.empty():
             if self.position == self.path.queue[0]:
                 self.path.get()
             new_position = self.path.queue[0]
+
             #print(f"{new_position}")
             # print(f"{self.path.queue[1]}")
             next_cell = self.model.grid.get_cell_list_contents(new_position)
             trafficLight = None
             crosswalk = None
+            banquetita = None
+            CarNext = None
 
             for elem in next_cell:
                 if type(elem) is TrafficLight:
@@ -79,15 +84,21 @@ class Pedestrians(Agent):
                 if type(elem) is Crosswalk:
                     crosswalk = elem
                 if type(elem) is Sidewalk:
+                    banquetita = elem
                     self.direccion = elem.direccion
-
-
+                if type(elem) is Car.Car:
+                    CarNext = elem
+                    
             if trafficLight:
                 # 0 = verde | 1 = amarillo | 2 = Rojo
                 if trafficLight.color == 1 or trafficLight.color == 2:
                     self.model.grid.move_agent(self, new_position)
                     self.path.get()
-            elif crosswalk:
+
+            # elif banquetita:
+            #     self.model.grid.move_agent(self, new_position)
+            #     self.path.get()
+            elif CarNext is None:
                 self.model.grid.move_agent(self, new_position)
                 self.path.get()
         else:
