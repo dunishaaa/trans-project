@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -310.5, y: 0, z: 119}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.16, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,7 +63,7 @@ MonoBehaviour:
       m_Rotation: 0
       m_Anchor: 9
     m_Material: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-    m_SubmeshIndex: 0
+    m_SubmeshIndex: 1
     m_ManualUV: 0
     elementGroup: 0
     m_TextureGroup: 3
@@ -636,12 +636,12 @@ MonoBehaviour:
       m_FlipV: 0
       m_SwapUV: 0
       m_Fill: 1
-      m_Scale: {x: 1, y: 1}
-      m_Offset: {x: 0, y: 0}
+      m_Scale: {x: 0.0044, y: 0.007}
+      m_Offset: {x: 8, y: 0}
       m_Rotation: 0
       m_Anchor: 9
     m_Material: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-    m_SubmeshIndex: 0
+    m_SubmeshIndex: 1
     m_ManualUV: 0
     elementGroup: 0
     m_TextureGroup: 7
@@ -1292,10 +1292,10 @@ MonoBehaviour:
   - {x: -247.5, y: 136}
   - {x: -230.5, y: 136}
   - {x: -230.5, y: 117.5}
-  - {x: 13, y: 0}
-  - {x: 13, y: 117.5}
-  - {x: 230.5, y: 117.5}
-  - {x: 230.5, y: 0}
+  - {x: 0.057200015, y: 0}
+  - {x: 0.057200015, y: 0.82250005}
+  - {x: 1.0142, y: 0.82250005}
+  - {x: 1.0142, y: 0}
   - {x: 13, y: 117.5}
   - {x: 13, y: 136}
   - {x: 230.5, y: 136}
@@ -1495,10 +1495,10 @@ MonoBehaviour:
   - {x: -1, y: 0, z: 0, w: -1}
   - {x: -1, y: 0, z: 0, w: -1}
   - {x: -1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
-  - {x: 1, y: 0, z: 0, w: -1}
+  - {x: 0, y: 1, z: 0, w: 1}
+  - {x: 0, y: 1, z: 0, w: 1}
+  - {x: 0, y: 1, z: 0, w: 1}
+  - {x: 0, y: 1, z: 0, w: 1}
   - {x: 1, y: 0, z: 0, w: -1}
   - {x: 1, y: 0, z: 0, w: -1}
   - {x: 1, y: 0, z: 0, w: -1}
@@ -1568,11 +1568,19 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1751
+  m_VersionIndex: 1850
   m_IsSelectable: 1
-  m_SelectedFaces: 
-  m_SelectedEdges: []
-  m_SelectedVertices: 
+  m_SelectedFaces: 18000000
+  m_SelectedEdges:
+  - a: 96
+    b: 97
+  - a: 97
+    b: 98
+  - a: 98
+    b: 99
+  - a: 99
+    b: 96
+  m_SelectedVertices: 62000000600000006100000063000000
 --- !u!114 &4049266879502906086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,7 +1629,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f9a06983382caf040a5a1e770db1ee80, type: 2}
+  - {fileID: 2100000, guid: b395c1d44bdf4994c9829e2b12487457, type: 2}
+  - {fileID: 2100000, guid: bc1dec80b0acf674a8c15c45c4a3ffa3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
