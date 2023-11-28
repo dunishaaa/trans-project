@@ -12,6 +12,7 @@ from Crosswalk import Crosswalk
 from StreetBus import StreetBus
 from BusStop import BusStop
 from Bus import Bus
+from Pedestrians import Pedestrians
 
 
 class MapModel(Model):
@@ -26,7 +27,11 @@ class MapModel(Model):
         size = 1
         self.parking_lots = [(7, 7), (5, 13), (7, 16), (6, 24), (14, 25), (7, 30), (12, 31), (14, 5), (
             16, 9), (15, 16), (13, 14), (25, 5), (30, 8), (30, 13), (28, 16), (25, 25), (31, 30)]
-
+        
+        self.borrar = [(7,8), (4,13), (7,17), (6,23), (14,26), (7,29), (12,32), (14,4), (17,9), (15,17), (12,14), (25,4), (29,8), (30,12), (28,17), (26,25), (32,30)]
+        
+        
+            
         self.lol1 = [[(4*size, 9*size), (4*size, 10*size)], [(4*size, 22*size), (4*size, 21*size)], [(25*size, 3*size), (25*size, 2*size), (25, 1)],
                      [(32*size, 10*size), (32*size, 11*size)
                       ], [(17*size, 27*size), (17*size, 28*size)],
@@ -171,9 +176,25 @@ class MapModel(Model):
 
         self.create_buses(self.lst_buses)
 #        self.create_buses()
+        
+        for i in self.borrar:
+            aiuda = True
+            cell_content2 = self.grid.get_cell_list_contents(i)
+            for value in cell_content2:
+                if type(value) is Sidewalk:
+                    aiuda = False
+                    
+                if aiuda == False:
+                    self.grid.remove_agent(value)
+                    calle = Street(i, self)
+                    cross = Crosswalk(i, self)
+                    cross.direccion = 4
+                    calle.direccion = 4
+                    self.grid.place_agent(calle, i)
+                    self.grid.place_agent(cross, i)
+                    
         self.create_cars_in_lots()
-
-        #     self.grid.place_agent(calle, i)
+        self.create_pedestrians()
 
 
 
@@ -218,7 +239,7 @@ class MapModel(Model):
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-        print(dict)
+        #print(dict)
         return dict
 
     def create_busstop(self, spls):
@@ -237,6 +258,23 @@ class MapModel(Model):
             crosswalk = Crosswalk(i, self)
             self.grid.place_agent(crosswalk, (i))
 
+    def create_pedestrians(self):
+        pini = (5, 5)
+        pdest = (17, 5)
+        for i in range(self.number_cars):
+            # ini = self.parking_lots[randint(0, len(self.parking_lots)-1)]
+            # dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
+            # while ini == dest:
+            #     dest = self.parking_lots[randint(0, len(self.parking_lots)-1)]
+            x, y = pini
+            pedAg = Pedestrians(self.current_id, self, pini, pdest)
+            #print(f"{ini=} -> {dest=}")
+            self.current_id += 1
+            pedAg.pos = pini
+            self.grid.place_agent(pedAg, pini)
+            self.schedule.add(pedAg)
+            pedAg.get_path()
+        
     def create_cars_in_lots(self):
         pini = (2, 2)
         pdest = (31, 30)
@@ -283,6 +321,12 @@ class MapModel(Model):
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
+    
+    # def delate_street(self, cell, last_cell):
+    #     street = Street((actual_cell), self)
+    #     street.direccion = direccion
+    #             self.grid.place_agent(street, (actual_cell))
+    #             cell = (x, y + 1)
 
     def create_street(self, cell, last_cell, direccion):
         actual_cell = (0, 0)
@@ -309,10 +353,15 @@ class MapModel(Model):
             actual_cell = cell
             x, y = cell
             last_x, last_y = last_cell
-            # cell_content = self.grid.get_cell_list_contents((x, y))
+            temp = True
             if (y <= last_y and x <= last_x):
-                sidewalk = Sidewalk((actual_cell), self)
-                self.grid.place_agent(sidewalk, (actual_cell))
+                cell_content = self.grid.get_cell_list_contents((x, y))
+                for value in cell_content:
+                    if type(value) is Building or type(value) is Street or type(value) is Parking:
+                        temp = False
+                if temp:
+                    sidewalk = Sidewalk((actual_cell), self)
+                    self.grid.place_agent(sidewalk, (actual_cell))
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)

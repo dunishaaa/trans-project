@@ -52,7 +52,7 @@ class Vehicle(Agent):
             cell = self.model.grid.get_cell_list_contents(step)
             for value in cell:
                 if type(value) is Street:
-                    print(f"{self.get_direction(position, step)}")
+                    # print(f"{self.get_direction(position, step)}")
                     return self.get_direction(position, step)
                 
                 

@@ -78,8 +78,8 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Color": "green",
-            "Layer": 1,
+            "Color": "black",
+            "Layer": 7,
             "w": 1,
             "h": 1,
         }
@@ -87,7 +87,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "circle",
             "Filled": "true",
-            "Layer": 1,
+            "Layer": 5,
             "Color": "white",
             "r": 1
         }
@@ -116,6 +116,14 @@ def agent_portrayal(agent):
             "Color": "orange",
             "Layer": 5,
             "r": 0.8
+        }
+    if type(agent) is Pedestrians:
+        portrayal = {
+            "Shape": "circle",
+            "Filled": "true",
+            "Color": "Green",
+            "Layer": 9,
+            "r": 0.5
         }
 
         
