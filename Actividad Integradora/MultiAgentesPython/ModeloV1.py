@@ -209,6 +209,8 @@ class MapModel(Model):
                         dict["metrobuses"].append(dic)
                     elif type(value) is TrafficLight:
                         dic["id"] = value.unique_id
+                        dic["x"] = x
+                        dic["y"] = y
                         dic["color"] = value.color
                         dict["trafficlights"].append(dic)
                         
