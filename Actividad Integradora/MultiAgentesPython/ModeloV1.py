@@ -183,6 +183,7 @@ class MapModel(Model):
         dict["cars"] = []
         dict["metrobuses"] = []
         dict["pedestrians"] = []
+        dict["trafficlights"] = []
         actual_cell = (0, 0)
         initial_x, initial_y = actual_cell
 
@@ -206,11 +207,16 @@ class MapModel(Model):
                         dic["x"] = x
                         dic["y"] = y
                         dict["metrobuses"].append(dic)
+                    elif type(value) is TrafficLight:
+                        dic["id"] = value.unique_id
+                        dic["color"] = value.color
+                        dict["trafficlights"].append(dic)
+                        
 
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-        #print(dict)
+        print(dict)
         return dict
 
     def create_busstop(self, spls):

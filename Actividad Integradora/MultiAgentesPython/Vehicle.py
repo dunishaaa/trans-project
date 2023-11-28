@@ -116,7 +116,7 @@ class Vehicle(Agent):
             if self.position == self.path.queue[0]:
                 self.path.get()
             new_position = self.path.queue[0]
-            print(f"{new_position}")
+            #print(f"{new_position}")
             # print(f"{self.path.queue[1]}")
             next_cell = self.model.grid.get_cell_list_contents(new_position)
             #print(f"{next_cell}")
