@@ -12,7 +12,8 @@ class Pedestrians(Agent):
         self.show = True 
         self.position = position
         self.destiny = destiny
-        self.path = Queue() 
+        self.path = Queue()
+        self.pasito_a_pasito = 0
     
     
     def prune_neighbors(self, possible_steps):
@@ -125,7 +126,11 @@ class Pedestrians(Agent):
         self.restore_path(path)
         
     def step(self) -> None:
-        self.move()
+        if self.pasito_a_pasito > 4: 
+            self.move()
+            self.pasito_a_pasito = 0
+        else:
+            self.pasito_a_pasito += 1
 
     def advance(self) -> None:
         print("", end="")

@@ -251,7 +251,7 @@ class MapModel(Model):
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-        print(dict)
+        #print(dict)
         return dict
 
     def create_busstop(self, spls):
