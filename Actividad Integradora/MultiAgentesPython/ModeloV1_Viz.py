@@ -27,7 +27,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "circle",
             "Filled": "true",
-            "Layer": 3,
+            "Layer": 4,
             "Color": "red",
             "r": 0.8
 
@@ -43,7 +43,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "rect",
             "Filled": "true",
-            "Layer": 2,
+            "Layer": 1,
             "w": 1,
             "h": 1,
         }
@@ -79,7 +79,7 @@ def agent_portrayal(agent):
             "Shape": "rect",
             "Filled": "true",
             "Color": "black",
-            "Layer": 7,
+            "Layer": 2,
             "w": 1,
             "h": 1,
         }
@@ -87,7 +87,7 @@ def agent_portrayal(agent):
         portrayal = {
             "Shape": "circle",
             "Filled": "true",
-            "Layer": 5,
+            "Layer": 3,
             "Color": "white",
             "r": 1
         }

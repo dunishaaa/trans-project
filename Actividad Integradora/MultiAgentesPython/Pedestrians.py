@@ -126,7 +126,7 @@ class Pedestrians(Agent):
         self.restore_path(path)
         
     def step(self) -> None:
-        if self.pasito_a_pasito > 4: 
+        if self.pasito_a_pasito >= 3: 
             self.move()
             self.pasito_a_pasito = 0
         else:
