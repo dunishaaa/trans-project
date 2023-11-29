@@ -12,12 +12,14 @@ from Crosswalk import Crosswalk
 from StreetBus import StreetBus
 from BusStop import BusStop
 from Bus import Bus
+from Pedestrians import Pedestrians
 
 
 class MapModel(Model):
     def __init__(self, width, height, number_cars, number_buses):
         self.grid = MultiGrid(width, height, True)
         self.number_cars = number_cars
+        self.number_p = 10
         self.number_buses = number_buses
         self.schedule = StagedActivation(self)
         self.running = True
@@ -27,6 +29,12 @@ class MapModel(Model):
         self.parking_lots = [(7, 7), (5, 13), (7, 16), (6, 24), (14, 25), (7, 30), (12, 31), (14, 5), (
             16, 9), (15, 16), (13, 14), (25, 5), (30, 8), (30, 13), (28, 16), (25, 25), (31, 30)]
 
+        
+        self.borrar = [(7,8), (4,13), (7,17), (6,23), (14,26), (7,29), (12,32), (14,4), (17,9), (15,17), (12,14), (25,4), (29,8), (30,12), (28,17), (26,25), (32,30)]
+        
+        self.directions = [(6,8), (4,14), (8,17), (7,23), (15,26),(8,29), (13,32), (15,4),(17,10),(14,17),(12,13),( 26,5),(30,9),(32,13),(29,17),(26,26),(33,31)]
+        
+            
         self.lol1 = [[(4*size, 9*size), (4*size, 10*size)], [(4*size, 22*size), (4*size, 21*size)], [(25*size, 3*size), (25*size, 2*size), (25, 1)],
                      [(32*size, 10*size), (32*size, 11*size)
                       ], [(17*size, 27*size), (17*size, 28*size)],
@@ -167,11 +175,30 @@ class MapModel(Model):
 
         self.create_pkl(self.spls)
         self.create_crosswalk(self.crosswalk_list)
-        self.ubication((0, 0), (36, 36))
+    
 
         self.create_buses(self.lst_buses)
-#        self.create_buses()
         self.create_cars_in_lots()
+        
+        for i in self.borrar:
+            aiuda = True
+            cell_content2 = self.grid.get_cell_list_contents(i)
+            for value in cell_content2:
+                if type(value) is Sidewalk:
+                    aiuda = False
+                    
+                if aiuda == False:
+                    self.grid.remove_agent(value)
+                    calle = Street(i, self)
+                    cross = Crosswalk(i, self)
+                    calle.direccion = 4
+                    self.grid.place_agent(calle, i)
+                    self.grid.place_agent(cross, i)
+                    
+        self.create_p()
+        self.ubication((0, 0), (36, 36))
+                    
+
 
         #     self.grid.place_agent(calle, i)
 
@@ -183,6 +210,7 @@ class MapModel(Model):
         dict["cars"] = []
         dict["metrobuses"] = []
         dict["pedestrians"] = []
+        dict["trafficlights"] = []
         actual_cell = (0, 0)
         initial_x, initial_y = actual_cell
 
@@ -206,11 +234,24 @@ class MapModel(Model):
                         dic["x"] = x
                         dic["y"] = y
                         dict["metrobuses"].append(dic)
+                    elif type(value) is TrafficLight:
+                        dic["id"] = value.unique_id
+                        dic["x"] = x
+                        dic["y"] = y
+                        dic["color"] = value.color
+                        dict["trafficlights"].append(dic)
+                    elif type(value) is Pedestrians:
+                        # dic["direction"] = value.direccion
+                        dic["id"] = value.unique_id
+                        dic["x"] = x
+                        dic["y"] = y
+                        dict["pedestrians"].append(dic)
+                        
 
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
-        #print(dict)
+        print(dict)
         return dict
 
     def create_busstop(self, spls):
@@ -228,6 +269,24 @@ class MapModel(Model):
         for i in splw:
             crosswalk = Crosswalk(i, self)
             self.grid.place_agent(crosswalk, (i))
+            
+    def create_p(self):
+        # pini = (5, 4)
+        # pdest = (12, 15)
+        for i in range(self.number_p):
+            pini = self.directions[randint(0, len(self.directions)-1)]
+            pdest = self.directions[randint(0, len(self.directions)-1)]
+            
+            while pini == pdest:
+                pdest = self.directions[randint(0, len(self.directions)-1)]
+                
+            x, y = pini
+            pAg = Pedestrians(self.current_id, self, pini, pdest)
+            self.current_id += 1
+            pAg.pos = pini
+            self.grid.place_agent(pAg, pini)
+            self.schedule.add(pAg)
+            pAg.get_path()
 
     def create_cars_in_lots(self):
         pini = (2, 2)
@@ -275,6 +334,12 @@ class MapModel(Model):
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
+    
+    # def delate_street(self, cell, last_cell):
+    #     street = Street((actual_cell), self)
+    #     street.direccion = direccion
+    #             self.grid.place_agent(street, (actual_cell))
+    #             cell = (x, y + 1)
 
     def create_street(self, cell, last_cell, direccion):
         actual_cell = (0, 0)
@@ -301,10 +366,15 @@ class MapModel(Model):
             actual_cell = cell
             x, y = cell
             last_x, last_y = last_cell
-            # cell_content = self.grid.get_cell_list_contents((x, y))
+            temp = True
             if (y <= last_y and x <= last_x):
-                sidewalk = Sidewalk((actual_cell), self)
-                self.grid.place_agent(sidewalk, (actual_cell))
+                cell_content = self.grid.get_cell_list_contents((x, y))
+                for value in cell_content:
+                    if type(value) is Building or type(value) is Street or type(value) is Parking:
+                        temp = False
+                if temp:
+                    sidewalk = Sidewalk((actual_cell), self)
+                    self.grid.place_agent(sidewalk, (actual_cell))
                 cell = (x, y + 1)
             else:
                 cell = (x + 1, initial_y)
