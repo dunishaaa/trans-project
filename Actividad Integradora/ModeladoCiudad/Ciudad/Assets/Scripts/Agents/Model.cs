@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 public class Model: MonoBehaviour
 {
     public int numberCars = 1, numberPedestrians = 1;
-    public float speed, rotationSpeed, pedestrianSpeedFactor = 0.22f;
+    public float speed, rotationSpeed, pedestrianSpeedFactor = 4f;
     public float errTolerance = 1f;
 
     public List<GameObject> carsList;
@@ -255,7 +255,7 @@ public class Model: MonoBehaviour
             case 2:
                 currentAgent = pedestrians[agent.id];
                 Pedestrian pedestrian = currentAgent.GetComponent<Pedestrian>();
-                pedestrian.speed = speed*pedestrianSpeedFactor;
+                pedestrian.speed = speed* (1f / pedestrianSpeedFactor);
                 nextDirection.y = pedestrianY;
                 pedestrian.targetPosition = nextDirection;
                 break;
