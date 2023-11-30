@@ -20,7 +20,7 @@ public class Model: MonoBehaviour
     private Dictionary<int, GameObject> metrobuses;
     private Dictionary<int, GameObject> pedestrians;
     private float factor = 10f;
-    private float pedestrianY = 8f, floorY = 2f;
+    public float pedestrianY = 8f, floorY = 2f;
     private float xd, yd, zd;
     private void Awake()
     {
