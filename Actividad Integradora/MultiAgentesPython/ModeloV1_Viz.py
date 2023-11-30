@@ -132,8 +132,9 @@ def agent_portrayal(agent):
 
 
 var = 34
-num_cars = 66
+num_cars = 10 
 num_buses = 1
+num_pedestrians = 10
 grid = CanvasGrid(agent_portrayal, 37, 37)
 
 server = ModularServer(
@@ -144,7 +145,8 @@ server = ModularServer(
         "width": 37,
         "height":  37,
         "number_cars": num_cars,
-        "number_buses": 1
+        "number_buses": num_buses,
+        "number_pedestrians": num_pedestrians
     },
 )
 server.port = 8521  # The default
