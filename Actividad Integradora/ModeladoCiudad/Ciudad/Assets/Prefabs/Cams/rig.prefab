@@ -663,8 +663,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc683c8b6f564134f8631b87211f3a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  rotationSpeed: 6
+  speed: 50
+  rotationSpeed: 1
   goals:
   - {fileID: 0}
   - {fileID: 0}
@@ -679,8 +679,13 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_currentGoalIndex: 0
-  err: 10
+  err: 40
 --- !u!1 &8444727609721836051
 GameObject:
   m_ObjectHideFlags: 0
