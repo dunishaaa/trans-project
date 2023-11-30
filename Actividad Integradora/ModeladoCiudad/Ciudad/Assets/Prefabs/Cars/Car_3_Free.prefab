@@ -1166,7 +1166,6 @@ Transform:
   - {fileID: 997463260820393795}
   - {fileID: 7067657176099265434}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3395449692341820937
 MonoBehaviour:
   m_ObjectHideFlags: 0

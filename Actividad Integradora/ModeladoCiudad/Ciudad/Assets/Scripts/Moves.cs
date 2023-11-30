@@ -9,6 +9,7 @@ public class Moves : MonoBehaviour
 
     public List<Transform> goals;
     public int m_currentGoalIndex = 0;
+    public float err = 10f;
 
     private Transform m_transform;
     private Vector3 m_destinationPosition;
@@ -28,7 +29,7 @@ public class Moves : MonoBehaviour
         Vector3 currentPosition = m_transform.position;
         Vector3 displacementVector = m_destinationPosition - currentPosition;
 
-        bool isWalking = displacementVector.magnitude >= 0.5f;
+        bool isWalking = displacementVector.magnitude >= err;
         //anim.SetBool("isWalking", isWalking);
 
         if (!isWalking)

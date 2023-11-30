@@ -16,10 +16,10 @@ from Pedestrians import Pedestrians
 
 
 class MapModel(Model):
-    def __init__(self, width, height, number_cars, number_buses):
+    def __init__(self, width, height, number_cars, number_buses, number_pedestrians):
         self.grid = MultiGrid(width, height, True)
         self.number_cars = number_cars
-        self.number_p = 10
+        self.number_p = number_pedestrians 
         self.number_buses = number_buses
         self.schedule = StagedActivation(self)
         self.running = True
