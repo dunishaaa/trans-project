@@ -7,6 +7,7 @@ from TrafficLight import TrafficLight
 import Car
 import Parking
 from Crosswalk import Crosswalk
+from Pedestrians import Pedestrians
 
 class Vehicle(Agent):
     def __init__(self, unique_id, model, position, destiny) -> None:
@@ -16,6 +17,7 @@ class Vehicle(Agent):
         self.destiny = destiny
         self.direccion = None
         self.path = Queue() 
+        self.wait = 0
     
     @abstractmethod
     def prune_neighbors(self, possible_steps):
@@ -52,7 +54,7 @@ class Vehicle(Agent):
             cell = self.model.grid.get_cell_list_contents(step)
             for value in cell:
                 if type(value) is Street:
-                    print(f"{self.get_direction(position, step)}")
+                    # print(f"{self.get_direction(position, step)}")
                     return self.get_direction(position, step)
                 
                 
@@ -112,11 +114,12 @@ class Vehicle(Agent):
 
     
     def move(self) -> None:
+        wait = 0
         if not self.path.empty():
             if self.position == self.path.queue[0]:
                 self.path.get()
             new_position = self.path.queue[0]
-            print(f"{new_position}")
+            #print(f"{new_position}")
             # print(f"{self.path.queue[1]}")
             next_cell = self.model.grid.get_cell_list_contents(new_position)
             #print(f"{next_cell}")
@@ -124,7 +127,7 @@ class Vehicle(Agent):
             carNext = None
             parkingNext = None
             crosswalk = None
-
+            pedestrians = None
             for elem in next_cell:
                 if type(elem) is TrafficLight:
                     trafficLight = elem
@@ -136,6 +139,8 @@ class Vehicle(Agent):
                     crosswalk = elem
                 if type(elem) is Street:
                     self.direccion = self.get_direction(self.position, new_position)
+                if type(elem) is Pedestrians:
+                    pedestrians = elem
 
 
             if trafficLight:
@@ -144,7 +149,7 @@ class Vehicle(Agent):
                 if trafficLight.color == 0:
                     self.model.grid.move_agent(self, new_position)
                     self.path.get()
-            elif carNext is None:
+            elif carNext is None and pedestrians is None:
                 self.model.grid.move_agent(self, new_position)
                 self.path.get()
             elif carNext and parkingNext:

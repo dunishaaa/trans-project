@@ -16,15 +16,15 @@ model = None
 data_hist = []
 g_step = 0
 
-@app.get("/init/<int:cars>")
-def init_cars(cars=1):
+@app.get("/init/<int:cars>/<int:pedestrians>")
+def init_cars(cars=1, pedestrians=1):
     global model
     global data_hist 
     global g_step 
     data = []
     model = None
     g_step = 1
-    model = MapModel(37,37,cars, 1)
+    model = MapModel(37,37,cars, 1, pedestrians)
     data = model.ubication((0,0),(36,36))
 #    data_hist.append(data)
 
@@ -40,15 +40,6 @@ def get_data(step):
     data = model.ubication((0,0), (36, 36))
     return jsonify(data)
 
-    if step == g_step:
-        data_hist.pop()
-        model.step()
-        g_step+=1
-        data = model.ubication((0,0), (36, 36))
-        data_hist.append(data)
-        return jsonify(data)
-    else:
-        return jsonify(data_hist[-1])
 
 
 

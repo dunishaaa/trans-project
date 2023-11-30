@@ -758,15 +758,15 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0b575cbec12e52b4ba8daf01e3331a53, type: 2}
+  - {fileID: 2100000, guid: 364eeef4eed58594b963790637ccd4de, type: 2}
   - {fileID: 2100000, guid: cef1ab979fc1361468e095649e56a0a9, type: 2}
   - {fileID: 2100000, guid: c8b2f5aa959a2714ab1f191e4fcb21a9, type: 2}
   - {fileID: 2100000, guid: d71e511fd1f28fb4eb39a7c125f9ee5a, type: 2}
   - {fileID: 2100000, guid: 6b9fbbca9b4761243b24b471950c3fd3, type: 2}
   - {fileID: 2100000, guid: a52d0ba4758ecaa47a017ba906a01f18, type: 2}
-  - {fileID: 8992934318045909824, guid: fa8d94f2e0eded649947e980da776d3a, type: 3}
+  - {fileID: 2100000, guid: 440316515ed1bd64287d3ec235021adb, type: 2}
   - {fileID: -7238486245857582192, guid: 69a99f41d0f03c749823517156b87449, type: 3}
-  - {fileID: -6190629496209403084, guid: 69a99f41d0f03c749823517156b87449, type: 3}
+  - {fileID: 2100000, guid: 6ad547d6a4da6454ba5e2835653bb81c, type: 2}
   - {fileID: -4079572848479758740, guid: 69a99f41d0f03c749823517156b87449, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -1134,6 +1134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6277037287105278209}
+  - component: {fileID: 3395449692341820937}
   m_Layer: 0
   m_Name: Car_3_Free
   m_TagString: Untagged
@@ -1165,7 +1166,22 @@ Transform:
   - {fileID: 997463260820393795}
   - {fileID: 7067657176099265434}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3395449692341820937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4851730634911565787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8139827461179574ebd812c6b51e364c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  rotationSpeed: 0
+  targetPosition: {x: 0, y: 0, z: 0}
+  m_Transform: {fileID: 0}
 --- !u!1 &5373271455227050719
 GameObject:
   m_ObjectHideFlags: 0
@@ -1227,7 +1243,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2802673651514223359, guid: fa8d94f2e0eded649947e980da776d3a, type: 3}
+  - {fileID: 2100000, guid: 440316515ed1bd64287d3ec235021adb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1310,7 +1326,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5490827904997257390, guid: 69a99f41d0f03c749823517156b87449, type: 3}
+  - {fileID: 2100000, guid: 6ad547d6a4da6454ba5e2835653bb81c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
