@@ -132,9 +132,9 @@ def agent_portrayal(agent):
 
 
 var = 34
-num_cars = 10 
+num_cars = 40 
 num_buses = 1
-num_pedestrians = 10
+num_pedestrians = 20
 grid = CanvasGrid(agent_portrayal, 37, 37)
 
 server = ModularServer(
